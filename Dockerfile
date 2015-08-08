@@ -8,5 +8,5 @@ ADD gnatsd.conf /gnatsd.conf
 # Expose client, management, and routing/cluster ports
 EXPOSE 4222 8222 6222
 
-ENTRYPOINT ["/gnatsd", "-c", "/gnatds.conf"]
+ENTRYPOINT ["/gnatsd", "-c", "/gnatsd.conf"]
 CMD []
