@@ -25,7 +25,7 @@ docker build -t nats-builder $TEMP
 ID=$(docker create nats-builder)
 
 # Update the local binary.
-docker cp $ID:/gopath/bin/gnatsd .
+docker cp $ID:/go/bin/gnatsd .
 
 # Cleanup.
 rm -fr $TEMP
