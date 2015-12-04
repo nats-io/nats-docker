@@ -19,6 +19,7 @@ TEMP=/tmp/nats.build
 mkdir $TEMP
 
 git clone -b $VERSION https://github.com/nats-io/gnatsd $TEMP
+
 docker build -t nats-builder $TEMP
 
 # Create a dummy nats builder container so we can run a cp against it.
