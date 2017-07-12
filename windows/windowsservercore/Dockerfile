@@ -2,7 +2,7 @@
 FROM microsoft/windowsservercore
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 
-ENV NATS_VERSION="v0.9.6"
+ENV NATS_VERSION="v1.0.0"
 
 # Download and expand released version
 RUN Invoke-WebRequest -OutFile gnatsd.zip "https://github.com/nats-io/gnatsd/releases/download/$($env:NATS_VERSION)/gnatsd-$($env:NATS_VERSION)-windows-amd64.zip" -UseBasicParsing ; `
