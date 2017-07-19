@@ -1,16 +1,14 @@
-# escape=`
 FROM microsoft/nanoserver
-SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 
-ENV NATS_VERSION="v1.0.0"
-
-# Download and expand released version
-RUN Invoke-WebRequest -OutFile gnatsd.zip "https://github.com/nats-io/gnatsd/releases/download/$($env:NATS_VERSION)/gnatsd-$($env:NATS_VERSION)-windows-amd64.zip" -UseBasicParsing ; `
-    Expand-Archive gnatsd.zip -DestinationPath C:\ ; `
-    Move-Item "C:/gnatsd-$($env:NATS_VERSION)-windows-amd64" 'c:/gnatsd'; `
-    Remove-Item gnatsd.zip
+# The NAT Server will look for this environment variable.
+# When set, it prevents the use of the service API to detect
+# if it is running in interactive mode or not, which is
+# failing in the context of a Docker container.
+# (https://github.com/nats-io/gnatsd/issues/543)
+ENV NATS_DOCKERIZED=1
 
 WORKDIR c:/gnatsd
+COPY gnatsd.exe gnatsd.exe
 COPY gnatsd.conf gnatsd.conf
 
 # Expose client, management, and cluster ports
