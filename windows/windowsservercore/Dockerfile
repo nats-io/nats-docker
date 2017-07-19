@@ -5,7 +5,7 @@ FROM microsoft/windowsservercore
 # if it is running in interactive mode or not, which is
 # failing in the context of a Docker container.
 # (https://github.com/nats-io/gnatsd/issues/543)
-ENV NATS_WIN_CONTAINER=1
+ENV NATS_DOCKERIZED=1
 
 WORKDIR c:/gnatsd
 COPY gnatsd.exe gnatsd.exe
