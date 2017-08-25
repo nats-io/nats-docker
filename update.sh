@@ -20,26 +20,20 @@ mkdir $TEMP
 
 git clone -b $VERSION https://github.com/nats-io/gnatsd $TEMP
 
-docker build -t nats-builder $TEMP
+docker build -t nats-builder -f $TEMP/Dockerfile.all $TEMP
 
 # Create a dummy nats builder container so we can run a cp against it.
 ID=$(docker create nats-builder)
 
-# Update the local binary.
-docker cp $ID:/go/bin/gnatsd .
-
-# Windows variant
-docker build -t nats-builder-win -f $TEMP/Dockerfile.win64 $TEMP
-ID_WIN=$(docker create nats-builder-win)
-docker cp $ID_WIN:/go/src/github.com/nats-io/gnatsd/gnatsd.exe .
-cp gnatsd.exe windows/nanoserver
-cp gnatsd.exe windows/windowsservercore
-rm gnatsd.exe
+# Update the local binaries.
+docker cp $ID:/go/src/github.com/nats-io/gnatsd/pkg/linux-amd64/gnatsd amd64/
+docker cp $ID:/go/src/github.com/nats-io/gnatsd/pkg/linux-arm7/gnatsd arm32v7/
+docker cp $ID:/go/src/github.com/nats-io/gnatsd/pkg/linux-arm64/gnatsd arm64v8/
+docker cp $ID:/go/src/github.com/nats-io/gnatsd/pkg/win-amd64/gnatsd.exe windows/nanoserver/
+docker cp $ID:/go/src/github.com/nats-io/gnatsd/pkg/win-amd64/gnatsd.exe windows/windowsservercore/
 
 # Cleanup.
 rm -fr $TEMP
 docker rm -f $ID
-docker rm -f $ID_WIN
 docker rmi nats-builder
-docker rmi nats-builder-win
 echo "Done."
