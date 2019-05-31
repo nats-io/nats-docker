@@ -7,12 +7,12 @@ FROM microsoft/windowsservercore
 # (https://github.com/nats-io/gnatsd/issues/543)
 ENV NATS_DOCKERIZED=1
 
-WORKDIR c:/gnatsd
-COPY gnatsd.exe gnatsd.exe
-COPY gnatsd.conf gnatsd.conf
+WORKDIR c:/nats-server
+COPY nats-server.exe nats-server.exe
+COPY nats-server.conf nats-server.conf
 
 # Expose client, management, and cluster ports
 EXPOSE 4222 8222 6222
 
-ENTRYPOINT ["gnatsd"]
-CMD ["-c", "gnatsd.conf"]
+ENTRYPOINT ["nats-server"]
+CMD ["-c", "nats-server.conf"]

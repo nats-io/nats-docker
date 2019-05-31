@@ -18,7 +18,7 @@ echo "Fetching and building gnatsd $VERSION..."
 TEMP=/tmp/nats.build
 mkdir $TEMP
 
-git clone -b $VERSION https://github.com/nats-io/gnatsd $TEMP
+git clone -b $VERSION https://github.com/nats-io/nats-server $TEMP
 
 docker build -t nats-builder -f $TEMP/Dockerfile.all $TEMP
 
@@ -26,12 +26,12 @@ docker build -t nats-builder -f $TEMP/Dockerfile.all $TEMP
 ID=$(docker create nats-builder)
 
 # Update the local binaries.
-docker cp $ID:/go/src/github.com/nats-io/gnatsd/pkg/linux-amd64/gnatsd amd64/
-docker cp $ID:/go/src/github.com/nats-io/gnatsd/pkg/linux-arm6/gnatsd arm32v6/
-docker cp $ID:/go/src/github.com/nats-io/gnatsd/pkg/linux-arm7/gnatsd arm32v7/
-docker cp $ID:/go/src/github.com/nats-io/gnatsd/pkg/linux-arm64/gnatsd arm64v8/
-docker cp $ID:/go/src/github.com/nats-io/gnatsd/pkg/win-amd64/gnatsd.exe windows/nanoserver/
-docker cp $ID:/go/src/github.com/nats-io/gnatsd/pkg/win-amd64/gnatsd.exe windows/windowsservercore/
+docker cp $ID:/go/src/github.com/nats-io/nats-server/pkg/linux-amd64/nats-server amd64/
+docker cp $ID:/go/src/github.com/nats-io/nats-server/pkg/linux-arm6/nats-server arm32v6/
+docker cp $ID:/go/src/github.com/nats-io/nats-server/pkg/linux-arm7/nats-server arm32v7/
+docker cp $ID:/go/src/github.com/nats-io/nats-server/pkg/linux-arm64/nats-server arm64v8/
+docker cp $ID:/go/src/github.com/nats-io/nats-server/pkg/win-amd64/nats-server.exe windows/nanoserver/
+docker cp $ID:/go/src/github.com/nats-io/nats-server/pkg/win-amd64/nats-server.exe windows/windowsservercore/
 
 # Cleanup.
 rm -fr $TEMP
