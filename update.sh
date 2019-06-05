@@ -31,6 +31,7 @@ docker cp $ID:/go/src/github.com/nats-io/nats-server/pkg/linux-arm6/nats-server 
 docker cp $ID:/go/src/github.com/nats-io/nats-server/pkg/linux-arm7/nats-server arm32v7/
 docker cp $ID:/go/src/github.com/nats-io/nats-server/pkg/linux-arm64/nats-server arm64v8/
 docker cp $ID:/go/src/github.com/nats-io/nats-server/pkg/win-amd64/nats-server.exe windows/nanoserver/
+docker cp $ID:/go/src/github.com/nats-io/nats-server/pkg/win-amd64/nats-server.exe windows/nanoserver2019/
 docker cp $ID:/go/src/github.com/nats-io/nats-server/pkg/win-amd64/nats-server.exe windows/windowsservercore/
 
 # Cleanup.
