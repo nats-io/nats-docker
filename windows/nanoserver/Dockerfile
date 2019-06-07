@@ -1,4 +1,4 @@
-FROM microsoft/nanoserver
+FROM mcr.microsoft.com/windows/nanoserver:1803
 
 # The NAT Server will look for this environment variable.
 # When set, it prevents the use of the service API to detect
