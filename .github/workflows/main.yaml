@@ -1,0 +1,35 @@
+name: Docker build testing
+on: push
+
+jobs:
+  linux:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v1
+    - name: Test scratch
+      shell: bash --noprofile --norc -x -eo pipefail {0}
+      run: |
+        cd 2.1.0/scratch
+        docker build --tag nats:2.1.0-scratch .
+        run_id=$(docker run --detach nats:2.1.0-scratch)
+        sleep 1
+        test -n "$(docker ps --filter "id=${run_id}" --filter "status=running" --quiet)"
+        docker kill "$run_id"
+  windows:
+    runs-on: windows-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v1
+    - name: Test nanoserver1803
+      run: |
+        cd 2.1.0/nanoserver1803
+        docker build --tag nats:2.1.0-nanoserver1803 .
+    - name: Test nanoserver1809
+      run: |
+        cd 2.1.0/nanoserver1809
+        docker build --tag nats:2.1.0-nanoserver1809 .
+    - name: Test servercoreltsc2016
+      run: |
+        cd 2.1.0/servercoreltsc2016
+        docker build --tag nats:2.1.0-servercoreltsc2016 .
