@@ -3,33 +3,31 @@ on: push
 
 jobs:
   linux:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-18.04
     steps:
     - name: Checkout code
       uses: actions/checkout@v1
-    - name: Test scratch
-      shell: bash --noprofile --norc -x -eo pipefail {0}
+    - name: Build images
       run: |
-        cd 2.1.0/scratch
-        docker build --tag nats:2.1.0-scratch .
-        run_id=$(docker run --detach nats:2.1.0-scratch)
-        sleep 1
-        test -n "$(docker ps --filter "id=${run_id}" --filter "status=running" --quiet)"
-        docker kill "$run_id"
-  windows:
-    runs-on: windows-latest
+        ./tests/build-images.sh
+    - name: Test images
+      run: |
+        ./tests/run-images.sh
+  windows-2019:
+    runs-on: windows-2019
     steps:
     - name: Checkout code
       uses: actions/checkout@v1
-    - name: Test nanoserver1803
+    - name: Build images
+      shell: powershell
       run: |
-        cd 2.1.0/nanoserver1803
-        docker build --tag nats:2.1.0-nanoserver1803 .
-    - name: Test nanoserver1809
+        ./tests/build-images-2019.ps1
+  windows-2016:
+    runs-on: windows-2016
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v1
+    - name: Build images
+      shell: powershell
       run: |
-        cd 2.1.0/nanoserver1809
-        docker build --tag nats:2.1.0-nanoserver1809 .
-    - name: Test servercoreltsc2016
-      run: |
-        cd 2.1.0/servercoreltsc2016
-        docker build --tag nats:2.1.0-servercoreltsc2016 .
+        ./tests/build-images-2016.ps1
