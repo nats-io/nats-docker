@@ -6,6 +6,13 @@ if [[ "$(pwd)" != *"/scratch" ]]; then
 	exit 1
 fi
 
+go_version="${1}"
+if [[ "${go_version}" == "" ]]; then
+	echo "usage: ${0} <go version>"
+	echo "       ${0} 1.12.9"
+	exit 1
+fi
+
 # get-scratch-bins.sh builds different architecture NATS server binaries from
 # source inside of a Go container. These binaries are then exposed to the host
 # and checked into this repo.
@@ -17,7 +24,7 @@ fi
 # Note 'EOF' means that the heredoc is sent as a string literal. No variable
 # expansion happens from the super shell.
 
-docker run --interactive --rm --volume $(pwd):/out golang:1.12.9 bash << 'EOF'
+docker run --interactive --rm --volume "$(pwd)":/out "golang:${go_version}" bash << 'EOF'
 	set -ex
 	mkdir -p /go/src/github.com/nats-io/nats-server
 	cd /go/src/github.com/nats-io/nats-server
