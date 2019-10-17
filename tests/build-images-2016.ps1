@@ -8,8 +8,8 @@ Write-Output $PSVersionTable
 Write-Output (Get-WMIObject win32_operatingsystem).name
 Write-Output (Get-WMIObject win32_operatingsystem).OSArchitecture
 
-cd 2.1.0/servercoreltsc2016
-Write-Host "building servercoreltsc2016"
-docker build --tag nats:2.1.0-servercoreltsc2016 .
+cd 2.1.0/windowsservercoreltsc2016
+Write-Host "building windowsservercore-ltsc2016"
+docker build --tag nats:2.1.0-windowsservercore-ltsc2016 .
 
 docker images
