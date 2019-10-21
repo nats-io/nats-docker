@@ -85,12 +85,12 @@ image *must* come before a corresponding nanoserver image.
 ```
 Tags: 2.1.0-windowsservercore-1803, windowsservercore-1803
 Architectures: windows-amd64
-Directory: 2.1.0/windowsservercore1803
+Directory: 2.1.0/windowsservercore-1803
 Constraints: windowsservercore-1803
 
 Tags: 2.1.0-nanoserver-1803, nanoserver-1803
 Architectures: windows-amd64
-Directory: 2.1.0/nanoserver1803
+Directory: 2.1.0/nanoserver-1803
 Constraints: nanoserver-1803, windowsservercore-1803
 ```
 
