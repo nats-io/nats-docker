@@ -41,8 +41,8 @@ In addition, the scratch binaries will be built. We will fetch the server
 version tag and use the specified Go version to build the binaries.
 
 ```
-usage ./update-server-version.sh <server version> <go version>
-      ./update-server-version.sh 2.1.1 1.13.1
+usage ./update-server-version.sh <server version>
+      ./update-server-version.sh 2.1.1
 ```
 
 This script doesn't update everything though. Here are some other things you
