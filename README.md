@@ -78,9 +78,9 @@ GitCommit: 710f0ed18645d78e97fa7fd8cdf9b80dbe936eb6
 ```
 
 Docker images will be built in the order they're specified in the IMF file.
-This detail is especially important for the Windows images. Nanoserver images
-copy a binary from windowsservercore images. This means a windowsservercore
-image *must* come before a corresponding nanoserver image.
+This detail is very important because Windows images and the scratch image
+depend on this behavior. Nanoserver images must be built after servercore
+images. Scratch must be built after Alpine.
 
 ```
 Tags: 2.1.0-windowsservercore-1803, windowsservercore-1803
@@ -93,6 +93,11 @@ Architectures: windows-amd64
 Directory: 2.1.0/nanoserver-1803
 Constraints: nanoserver-1803, windowsservercore-1803
 ```
+
+The names of the images also have to be consistent with the rest of the
+official images. Make sure the names match existing image names. For example,
+it should be `2.1.0-windowsservercore-1803`, not `2.1.0-windowsservercore1803`,
+not `2.1.0-servercore-1803`.
 
 
 [Docker Hub]: https://hub.docker.com/_/nats
