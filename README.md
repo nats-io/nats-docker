@@ -41,8 +41,15 @@ In addition, the scratch binaries will be built. We will fetch the server
 version tag and use the specified Go version to build the binaries.
 
 ```
-usage ./update-server-version.sh <server version>
-      ./update-server-version.sh 2.1.1
+usage: ./update-server-version.sh <server version> <linux release sha256>
+       ./update-server-version.sh 2.1.0 68e656b251e67e8358bef8483ab0d51c6619f3e7a1a9f0e75838d41ff368f728
+```
+
+You can get the Linux release SHA256 from the [release binaries] page or by
+running this command.
+
+```
+shasum -a 256 nats-server.zip
 ```
 
 This script doesn't update everything though. Here are some other things you
