@@ -1,7 +1,6 @@
 FROM alpine:3.10
 
 ENV NATS_SERVER 2.1.0
-ENV NATS_SERVER_SHA256 a4012cac52715dbc693dbc3a98b90369b132416b12a67f9bcfb24c18d1efcbd6
 
 RUN set -eux; \
 	apkArch="$(apk --print-arch)"; \
@@ -15,7 +14,6 @@ RUN set -eux; \
 	esac; \
 	\
 	wget -O nats-server.zip "https://github.com/nats-io/nats-server/releases/download/v${NATS_SERVER}/nats-server-v${NATS_SERVER}-linux-${natsArch}.zip"; \
-	echo "${NATS_SERVER_SHA256}  nats-server.zip" | sha256sum -c -; \
 	\
 	apk add --no-cache ca-certificates; \
 	apk add --no-cache --virtual buildtmp unzip; \
