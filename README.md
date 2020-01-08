@@ -90,21 +90,21 @@ depend on this behavior. Nanoserver images must be built after servercore
 images. Scratch must be built after Alpine.
 
 ```
-Tags: 2.1.0-windowsservercore-1803, windowsservercore-1803
+Tags: 2.1.0-windowsservercore-1809, windowsservercore-1809
 Architectures: windows-amd64
-Directory: 2.1.0/windowsservercore-1803
-Constraints: windowsservercore-1803
+Directory: 2.1.0/windowsservercore-1809
+Constraints: windowsservercore-1809
 
-Tags: 2.1.0-nanoserver-1803, nanoserver-1803
+Tags: 2.1.0-nanoserver-1809, nanoserver-1809
 Architectures: windows-amd64
-Directory: 2.1.0/nanoserver-1803
-Constraints: nanoserver-1803, windowsservercore-1803
+Directory: 2.1.0/nanoserver-1809
+Constraints: nanoserver-1809, windowsservercore-1809
 ```
 
 The names of the images also have to be consistent with the rest of the
 official images. Make sure the names match existing image names. For example,
-it should be `2.1.0-windowsservercore-1803`, not `2.1.0-windowsservercore1803`,
-not `2.1.0-servercore-1803`.
+it should be `2.1.0-windowsservercore-1809`, not `2.1.0-windowsservercore1809`,
+not `2.1.0-servercore-1809`.
 
 
 [Docker Hub]: https://hub.docker.com/_/nats
