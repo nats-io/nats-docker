@@ -18,15 +18,4 @@ cd ../nanoserver-1809
 Write-Host "building nanoserver-1809"
 docker build --tag nats:2.1.2-nanoserver-1809 .
 
-# We can't test these images on GitHub CI. We get the following error on both
-# windows-2019 and windows-2016.
-# 	The container operating system does not match the host operating system.
-#
-# cd ../windowsservercore-1803
-# Write-Host "building windowsservercore-1803"
-# docker build --tag nats:2.1.2-windowsservercore-1803 .
-# cd ../nanoserver-1803
-# Write-Host "building nanoserver-1803"
-# docker build --tag nats:2.1.2-nanoserver-1803 .
-
 docker images
