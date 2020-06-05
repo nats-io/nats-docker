@@ -5,7 +5,7 @@ set -e
 # but only works if all arguments require a hyphenated flag
 # -v; -SL; -f arg; etc will work, but not arg1 arg2
 if [ "$#" -eq 0 ] || [ "${1#-}" != "$1" ]; then
-    set -- /usr/local/bin/nats-server "$@"
+    set -- nats-server "$@"
 fi
 
 # check for the expected command
