@@ -14,8 +14,8 @@ foreach ($img in $images) {
 	sleep 1
 
 	Write-Output "checking ${img}"
-	$status = & docker ps --filter "id=${runId}" --filter "status=running" --quiet
-	if (!$status) {
+	docker ps --filter "id=${runId}" --filter "status=running" --quiet
+	if ($LASTEXITCODE -ne 0) {
 		exit 1
 	}
 	docker kill $runId

@@ -8,11 +8,6 @@ if [ "$#" -eq 0 ] || [ "${1#-}" != "$1" ]; then
     set -- nats-server "$@"
 fi
 
-# check for the expected command
-if [ "$1" = 'nats-server' ]; then
-    exec "$@"
-fi
-
 # else default to run whatever the user wanted like "bash" or "sh"
 exec "$@"
 
