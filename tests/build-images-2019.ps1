@@ -14,8 +14,15 @@ Write-Output (Get-WMIObject win32_operatingsystem).OSArchitecture
 cd "${ver}/windowsservercore-1809"
 Write-Host "building windowsservercore-1809"
 docker build --tag nats:2.1.7-windowsservercore-1809 .
+if ($LASTEXITCODE -ne 0) {
+    exit 1
+}
+
 cd ../nanoserver-1809
 Write-Host "building nanoserver-1809"
 docker build --tag nats:2.1.7-nanoserver-1809 .
+if ($LASTEXITCODE -ne 0) {
+    exit 1
+}
 
 docker images

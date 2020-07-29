@@ -13,5 +13,8 @@ Write-Output (Get-WMIObject win32_operatingsystem).OSArchitecture
 cd "${ver}/windowsservercore-ltsc2016"
 Write-Host "building windowsservercore-ltsc2016"
 docker build --tag nats:2.1.7-windowsservercore-ltsc2016 .
+if ($LASTEXITCODE -ne 0) {
+    exit 1
+}
 
 docker images

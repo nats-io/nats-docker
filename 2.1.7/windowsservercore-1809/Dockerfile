@@ -6,13 +6,19 @@ SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop';"]
 ENV NATS_DOCKERIZED 1
 ENV NATS_SERVER 2.1.7
 ENV NATS_SERVER_DOWNLOAD https://github.com/nats-io/nats-server/releases/download/v${NATS_SERVER}/nats-server-v${NATS_SERVER}-windows-amd64.zip
+ENV GIT_DOWNLOAD_SHA256 1e1ad5c00929cc145341fd65f8b0a41a38e942b9b9fd9fdb0216c47654afdc8f
 
 RUN Set-PSDebug -Trace 2
 
-RUN Write-Host ('downloading from {0}' -f $env:NATS_SERVER_DOWNLOAD); \
+RUN Write-Host ('downloading from {0} ...' -f $env:NATS_SERVER_DOWNLOAD); \
 	[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; \
 	Invoke-WebRequest -Uri $env:NATS_SERVER_DOWNLOAD -OutFile nats.zip; \
 	\
+	Write-Host ('verifying sha256 ({0}) ...' -f $env:GIT_DOWNLOAD_SHA256); \
+	if ((Get-FileHash nats.zip -Algorithm sha256).Hash -ne $env:GIT_DOWNLOAD_SHA256) { \
+		Write-Host 'FAILED!'; \
+		exit 1; \
+	}; \
 	Write-Host 'extracting nats.zip'; \
 	Expand-Archive -Path 'nats.zip' -DestinationPath .; \
 	\
@@ -21,7 +27,9 @@ RUN Write-Host ('downloading from {0}' -f $env:NATS_SERVER_DOWNLOAD); \
 	\
 	Write-Host 'cleaning up'; \
 	Remove-Item -Force nats.zip; \
-	Remove-Item -Recurse -Force nats-server-v*
+	Remove-Item -Recurse -Force nats-server-v*; \
+	\
+	Write-Host 'complete.';
 
 COPY nats-server.conf C:\\nats-server.conf
 
