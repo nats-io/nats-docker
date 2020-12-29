@@ -30,6 +30,9 @@ COPY nats-server.conf /etc/nats/nats-server.conf
 COPY docker-entrypoint.sh /usr/local/bin
 EXPOSE 4222 8222 6222
 RUN adduser -g '' -h / -s /bin/ash -H -D nats
+RUN chown root:nats /etc/nats/nats-server.conf /usr/local/bin/docker-entrypoint.sh
+RUN chmod 640 /etc/nats/nats-server.conf
+RUN chmod 750 /usr/local/bin/docker-entrypoint.sh
 USER nats
 ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["nats-server", "--config", "/etc/nats/nats-server.conf"]
