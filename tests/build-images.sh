@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 set -ex
 
-ver=(NATS_SERVER 2.1.9)
+ver=(NATS_SERVER 2.2.0)
 
 (
-	cd "${ver[1]}/alpine3.12"
-	docker build --tag nats:2.1.9-alpine3.12 .
+	cd "${ver[1]}/alpine3.13"
+	docker build --tag nats:2.2.0-alpine3.13 .
 )
 
 (
 	cd "${ver[1]}/scratch"
-	docker build --tag nats:2.1.9-scratch .
+	docker build --tag nats:2.2.0-scratch .
 )
