@@ -5,24 +5,24 @@ ENV NATS_SERVER 2.2.6
 RUN set -eux; \
 	apkArch="$(apk --print-arch)"; \
 	case "$apkArch" in \
-		aarch64) natsArch='arm64'; sha256='779d7f363fb0244071e67bf146c7169a8e3c35af2746c0a01323a3c5fd12bf31' ;; \
-		armhf) natsArch='arm6'; sha256='ed7211f56fa3928e3664ed92df632b0e7480bd1b4a91c239cb26a0f55831c815' ;; \
-		armv7) natsArch='arm7'; sha256='a55335b1329248912e80d8e68b5dd6b6a48c4742de089c4226f503d7e8357f2c' ;; \
-		x86_64) natsArch='amd64'; sha256='fc67ce0b4c748fa16ff92414c7d6be18a9285824c21d9629684c0093cf074f77' ;; \
-		x86) natsArch='386'; sha256='386811034531cea6e794e4764fdd70b0b948fdf7212064e8c176663992c46f2e' ;; \
+		aarch64) natsArch='arm64'; sha256='c3888de97cd9b3fe3a968827b765c87f47d0a9d446c795895189506d5d50ef45' ;; \
+		armhf) natsArch='arm6'; sha256='d5fd9b119aa926d1a819f1ef4f09b393cb8f5c33d0a63829042911ef1b9e3def' ;; \
+		armv7) natsArch='arm7'; sha256='b736bfac73a74e650b67281a9fad6cd83cd1aa58824a5582a923058c5dfbca08' ;; \
+		x86_64) natsArch='amd64'; sha256='2808f83e2f00ac785d5862d04080d9a1390c60cfe6bde83fb3cad9f9a077aa53' ;; \
+		x86) natsArch='386'; sha256='ca539737be6ef8ced63b5f62254f10af228925f80bd59788c4bfb388439e49d1' ;; \
 		*) echo >&2 "error: $apkArch is not supported!"; exit 1 ;; \
 	esac; \
 	\
-	wget -O nats-server.zip "https://github.com/nats-io/nats-server/releases/download/v${NATS_SERVER}/nats-server-v${NATS_SERVER}-linux-${natsArch}.zip"; \
-	echo "${sha256} *nats-server.zip" | sha256sum -c -; \
+	wget -O nats-server.tar.gz "https://github.com/nats-io/nats-server/releases/download/v${NATS_SERVER}/nats-server-v${NATS_SERVER}-linux-${natsArch}.tar.gz"; \
+	echo "${sha256} *nats-server.tar.gz" | sha256sum -c -; \
 	\
 	apk add --no-cache ca-certificates; \
-	apk add --no-cache --virtual buildtmp unzip; \
+	apk add --no-cache --virtual buildtmp; \
 	\
-	unzip nats-server.zip "nats-server-v${NATS_SERVER}-linux-${natsArch}/nats-server"; \
-	rm nats-server.zip; \
+	tar -xf nats-server.tar.gz; \
+	rm nats-server.tar.gz; \
 	mv "nats-server-v${NATS_SERVER}-linux-${natsArch}/nats-server" /usr/local/bin; \
-	rmdir "nats-server-v${NATS_SERVER}-linux-${natsArch}"; \
+	rm -rf "nats-server-v${NATS_SERVER}-linux-${natsArch}"; \
 	\
 	apk del --no-cache --no-network buildtmp
 
