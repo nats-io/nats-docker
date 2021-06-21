@@ -6,7 +6,7 @@ SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop';"]
 ENV NATS_DOCKERIZED 1
 ENV NATS_SERVER 2.2.6
 ENV NATS_SERVER_DOWNLOAD https://github.com/nats-io/nats-server/releases/download/v${NATS_SERVER}/nats-server-v${NATS_SERVER}-windows-amd64.zip
-ENV GIT_DOWNLOAD_SHA256 c1712f41e4e811027701a036b6ff67b1f09fb298b0674098b26f875d37e709b2
+ENV NATS_SERVER_SHASUM c1712f41e4e811027701a036b6ff67b1f09fb298b0674098b26f875d37e709b2
 
 RUN Set-PSDebug -Trace 2
 
@@ -14,8 +14,8 @@ RUN Write-Host ('downloading from {0} ...' -f $env:NATS_SERVER_DOWNLOAD); \
 	[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12; \
 	Invoke-WebRequest -Uri $env:NATS_SERVER_DOWNLOAD -OutFile nats.zip; \
 	\
-	Write-Host ('verifying sha256 ({0}) ...' -f $env:GIT_DOWNLOAD_SHA256); \
-	if ((Get-FileHash nats.zip -Algorithm sha256).Hash -ne $env:GIT_DOWNLOAD_SHA256) { \
+	Write-Host ('verifying sha256 ({0}) ...' -f $env:NATS_SERVER_SHASUM); \
+	if ((Get-FileHash nats.zip -Algorithm sha256).Hash -ne $env:NATS_SERVER_SHASUM) { \
 		Write-Host 'FAILED!'; \
 		exit 1; \
 	}; \

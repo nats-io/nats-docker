@@ -25,38 +25,33 @@ For the most part, image variant Dockerfiles will download the official NATS
 server [release binaries] when building the server image and `COPY` a default
 configuration file.
 
-The Linux scratch image is special though. Since it's mostly air, we
-build the binaries locally. The scratch directory contains subdirectories for
-different architectures.
+The Linux scratch image is a little special. It copies a server binary from the
+Alpine image because the scratch image doesn't come with any tools to download
+and untar binaries.
 
 ## Updating NATS server version
 
 First, make sure you've published a new NATS server git tag and make sure the
-[release binaries] are ready to download.
+[release binaries] and SHASUMS are ready to download.
 
-Next, run this command. `update-server-version.sh` will update Dockerfiles and
-anything else to the version you specify.
-
-In addition, the scratch binaries will be built. We will fetch the server
-version tag and use the specified Go version to build the binaries.
+Next, run the command below. This will update the version and hash of the NATS
+server.
 
 ```
-usage: ./update-server-version.sh <server version> <linux release sha256>
-       ./update-server-version.sh 2.1.0 68e656b251e67e8358bef8483ab0d51c6619f3e7a1a9f0e75838d41ff368f728
+usage: ./update.py <server version>
+       ./update.py 2.1.0
 ```
 
-You can get the Linux release SHA256 from the [release binaries] page or by
-running this command.
+You can check what changed with `git diff`.
 
-```
-shasum -a 256 nats-server.zip
-```
+## Manual updates
 
-This script doesn't update everything though. Here are some other things you
+This script doesn't update everything. Here are some other things you
 may or may not want to update.
 
 * The Ubuntu host version used for CI.
 * The Windows host versions used for CI.
+* The Alpine version
 
 After you've updated everything that needs updating. Submit a PR to this repo.
 Make sure CI passes.
