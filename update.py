@@ -10,7 +10,7 @@ def nats_server_env_list(ver: str) -> typing.List:
     return [
         f"./{ver}/windowsservercore-1809/Dockerfile",
         f"./{ver}/windowsservercore-ltsc2016/Dockerfile",
-        f"./{ver}/alpine3.13/Dockerfile",
+        f"./{ver}/alpine3.14/Dockerfile",
         "./tests/build-images-2016.ps1",
         "./tests/build-images.sh",
         "./tests/build-images-2019.ps1",
@@ -74,7 +74,7 @@ def update_nats_server_shasum_env(old_ver: str, new_ver: str, shasums: typing.Di
             fd.write(r.sub(f"\g<1>{sha}", data))
 
 def update_alpine_arch_shasums(old_ver: str, new_ver: str, shasums: typing.Dict):
-    file = f"{old_ver}/alpine3.13/Dockerfile"
+    file = f"{old_ver}/alpine3.14/Dockerfile"
     with open(file, "r") as fd:
         data = fd.read()
 
