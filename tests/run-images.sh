@@ -2,8 +2,8 @@
 set -ex
 
 images=(
-	'nats:2.3.2-alpine3.14'
-	'nats:2.3.2-scratch'
+	'nats:2.3.3-alpine3.14'
+	'nats:2.3.3-scratch'
 )
 
 for img in "${images[@]}"; do
