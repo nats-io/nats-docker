@@ -1,12 +1,12 @@
-FROM mcr.microsoft.com/windows/servercore:ltsc2016
+FROM mcr.microsoft.com/windows/servercore:1809
 
 # Enable exit on error.
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop';"]
 
 ENV NATS_DOCKERIZED 1
-ENV NATS_SERVER 2.4.0
+ENV NATS_SERVER 2.5.0
 ENV NATS_SERVER_DOWNLOAD https://github.com/nats-io/nats-server/releases/download/v${NATS_SERVER}/nats-server-v${NATS_SERVER}-windows-amd64.zip
-ENV NATS_SERVER_SHASUM 6c66acf5ed7e87a1ed9c499033c8c64c8c1365c5a95973ec57859abf1a69b032
+ENV NATS_SERVER_SHASUM 0eae96ad4555f5060b0b6325ba972566b404cd8930b3168b9c0ffe911d15c5d8
 
 RUN Set-PSDebug -Trace 2
 
