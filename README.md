@@ -2,9 +2,9 @@
 
 [![License][License-Image]][License-Url]
 
-This is the repo for building the official [NATS server Docker images]. If you
+This is the repository for building the official [NATS server Docker images]. If you
 just want to use NATS server, then head over to [Docker Hub]. You don't need
-this repo.
+this repository.
 
 The rest of this readme is for image maintainers.
 
