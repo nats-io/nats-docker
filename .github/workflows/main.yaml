@@ -27,7 +27,7 @@ jobs:
       run: |
         ./tests/run-images-2019.ps1
   windows-2016:
-    runs-on: windows-2016
+    runs-on: windows-2019
     steps:
     - name: Checkout code
       uses: actions/checkout@v1
