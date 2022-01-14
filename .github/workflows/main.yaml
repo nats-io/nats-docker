@@ -26,16 +26,3 @@ jobs:
       shell: powershell
       run: |
         ./tests/run-images-2019.ps1
-  windows-2016:
-    runs-on: windows-2016
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v1
-    - name: Build images
-      shell: powershell
-      run: |
-        ./tests/build-images-2016.ps1
-    - name: Test images
-      shell: powershell
-      run: |
-        ./tests/run-images-2016.ps1
