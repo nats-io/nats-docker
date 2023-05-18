@@ -4,8 +4,8 @@ Set-PSDebug -Trace 2
 $ErrorActionPreference = "Stop"
 
 $images = @(
-	"nats:2.9.16-windowsservercore-1809",
-	"nats:2.9.16-nanoserver-1809"
+	"nats:2.9.17-windowsservercore-1809",
+	"nats:2.9.17-nanoserver-1809"
 )
 
 foreach ($img in $images) {
