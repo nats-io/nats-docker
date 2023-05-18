@@ -2,7 +2,7 @@
 set -ex
 
 images=(
-	'nats:2.9.17-alpine3.17'
+	'nats:2.9.17-alpine3.18'
 	'nats:2.9.17-scratch'
 )
 
