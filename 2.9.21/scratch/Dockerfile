@@ -1,5 +1,5 @@
 FROM scratch
-COPY --from=nats:2.9.20-alpine3.18 /usr/local/bin/nats-server /nats-server
+COPY --from=nats:2.9.21-alpine3.18 /usr/local/bin/nats-server /nats-server
 COPY nats-server.conf /nats-server.conf
 EXPOSE 4222 8222 6222
 ENV PATH="$PATH:/"
