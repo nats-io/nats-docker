@@ -17,7 +17,6 @@ RUN set -eux; \
 	echo "${sha256} *nats-server.tar.gz" | sha256sum -c -; \
 	\
 	apk add --no-cache ca-certificates tzdata; \
-	apk add --upgrade libcrypto3 libssl3; \
 	\
 	tar -xf nats-server.tar.gz; \
 	rm nats-server.tar.gz; \
