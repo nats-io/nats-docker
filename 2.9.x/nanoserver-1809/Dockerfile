@@ -1,8 +1,9 @@
 FROM mcr.microsoft.com/windows/nanoserver:1809
 
 ENV NATS_DOCKERIZED 1
+ENV NATS_SERVER 2.9.22
 
-COPY --from=nats:2.9.22-windowsservercore-1809 C:\\nats-server.exe C:\\nats-server.exe
+COPY --from=nats:${NATS_SERVER}-windowsservercore-1809 C:\\nats-server.exe C:\\nats-server.exe
 COPY nats-server.conf C:\\nats-server.conf
 
 EXPOSE 4222 8222 6222

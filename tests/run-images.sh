@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
 set -ex
 
+ver=(NATS_SERVER 2.9.x)
+
 images=(
-	'nats:2.9.22-alpine3.18'
-	'nats:2.9.22-scratch'
+	"nats:${ver[1]}-alpine3.18"
+	"nats:${ver[1]}-scratch"
 )
 
 for img in "${images[@]}"; do

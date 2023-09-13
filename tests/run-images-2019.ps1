@@ -3,9 +3,11 @@ Set-PSDebug -Trace 2
 # Exit on error.
 $ErrorActionPreference = "Stop"
 
+$ver = "NATS_SERVER 2.9.x".Split(" ")[1]
+
 $images = @(
-	"nats:2.9.22-windowsservercore-1809",
-	"nats:2.9.22-nanoserver-1809"
+	"nats:${ver}-windowsservercore-1809",
+	"nats:${ver}-nanoserver-1809"
 )
 
 foreach ($img in $images) {
