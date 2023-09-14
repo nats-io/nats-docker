@@ -1,5 +1,4 @@
 FROM mcr.microsoft.com/windows/nanoserver:1809
-
 ENV NATS_DOCKERIZED 1
 
 COPY --from=nats:2.9.22-windowsservercore-1809 C:\\nats-server.exe C:\\nats-server.exe

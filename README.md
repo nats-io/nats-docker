@@ -16,9 +16,12 @@ scratch on Linux or nanoserver on Windows.
 
 ```
 nats-docker/
-├── 1.2.3
-│   ├── image variant
-└───└── image variant
+├── 2.9.x
+│   ├── image variant 1
+└───└── image variant 2
+├── 2.10.x
+│   ├── image variant 1
+└───└── image variant 2
 ```
 
 For the most part, image variant Dockerfiles will download the official NATS
@@ -35,11 +38,13 @@ First, make sure you've published a new NATS server git tag and make sure the
 [release binaries] and SHASUMS are ready to download.
 
 Next, run the command below. This will update the version and hash of the NATS
-server.
+server. If this is a patch release, it will update the existing directory.
+However, if it is a minor or major version, it will create the new directory
+(if required) from the latest minor version.
 
 ```
 usage: ./update.py <server version>
-       ./update.py 2.1.0
+       ./update.py 2.10.0
 ```
 
 You can check what changed with `git diff`.
@@ -49,9 +54,9 @@ You can check what changed with `git diff`.
 This script doesn't update everything. Here are some other things you
 may or may not want to update.
 
-* The Ubuntu host version used for CI.
-* The Windows host versions used for CI.
-* The Alpine version
+- The Ubuntu host version used for CI.
+- The Windows host versions used for CI.
+- The Alpine version
 
 After you've updated everything that needs updating. Submit a PR to this repo.
 Make sure CI passes.
@@ -100,7 +105,6 @@ The names of the images also have to be consistent with the rest of the
 official images. Make sure the names match existing image names. For example,
 it should be `2.1.0-windowsservercore-1809`, not `2.1.0-windowsservercore1809`,
 not `2.1.0-servercore-1809`.
-
 
 [Docker Hub]: https://hub.docker.com/_/nats
 [docker-library/official-images]: https://github.com/docker-library/official-images
