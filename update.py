@@ -29,8 +29,27 @@ def update_env_var(base_dir: str, new_ver: str):
             fd.write(r.sub(f"\g<1>{new_ver}", data))
 
 
+# Update the nats:x.y.z tag across applicable files.
+def update_tag_var(base_dir: str, new_ver: str):
+    files = [
+        f"./{base_dir}/nanoserver-1809/Dockerfile",
+        f"./{base_dir}/scratch/Dockerfile",
+    ]
+
+    r = re.compile(r"(--from=nats:)[0-9]+\.[0-9]+\.[0-9]+")
+
+    for f in files:
+        with open(f, "r") as fd:
+            data = fd.read()
+
+        with open(f, "w") as fd:
+            fd.write(r.sub(f"\g<1>{new_ver}", data))
+
+
+
+
 # Update the NATS SHASUM across applicable files.
-def update_shasum_env(base_dir: str, new_ver: str, shasums: typing.Dict):
+def update_windows_shasums(base_dir: str, new_ver: str, shasums: typing.Dict):
     files = [
         f"{base_dir}/windowsservercore-1809/Dockerfile",
     ]
@@ -48,7 +67,7 @@ def update_shasum_env(base_dir: str, new_ver: str, shasums: typing.Dict):
             fd.write(r.sub(f"\g<1>{sha}", data))
 
 
-def update_alpine_arch_shasums(base_dir: str, new_ver: str, shasums: typing.Dict):
+def update_alpine_shasums(base_dir: str, new_ver: str, shasums: typing.Dict):
     file = f"{base_dir}/alpine3.18/Dockerfile"
 
     with open(file, "r") as fd:
@@ -147,17 +166,17 @@ if __name__ == "__main__":
     print(f"base dir: {base_dir}")
     print(f"new version: {new_ver}")
 
-    # Ensure the new directory exists.
-    base_dir = ensure_dir(base_dir, maj_ver, min_ver)
-
     print("downloading binary release shasums...")
     shasums = get_shasums(new_ver)
 
+    # Ensure the new directory exists.
+    base_dir = ensure_dir(base_dir, maj_ver, min_ver)
+
     print("updating local files...")
     update_env_var(base_dir, new_ver)
-    update_tag(base_dir, new_ver)
+    update_tag_var(base_dir, new_ver)
 
-    update_shasum_env(base_dir, new_ver, shasums)
-    update_alpine_arch_shasums(base_dir, new_ver, shasums)
+    update_windows_shasums(base_dir, new_ver, shasums)
+    update_alpine_shasums(base_dir, new_ver, shasums)
 
     print("update complete")
