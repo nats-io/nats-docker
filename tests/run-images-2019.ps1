@@ -3,7 +3,7 @@ Set-PSDebug -Trace 2
 # Exit on error.
 $ErrorActionPreference = "Stop"
 
-$ver = "NATS_SERVER 2.10.5".Split(" ")[1]
+$ver = "NATS_SERVER 2.10.6".Split(" ")[1]
 
 $images = @(
 	"nats:${ver}-windowsservercore-1809",
@@ -23,7 +23,7 @@ foreach ($img in $images) {
 	docker kill $runId
 }
 
-$ver = "NATS_SERVER 2.10.5".Split(" ")[1]
+$ver = "NATS_SERVER 2.10.6".Split(" ")[1]
 
 $images = @(
 	"nats:${ver}-windowsservercore-1809",
