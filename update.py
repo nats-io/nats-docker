@@ -12,7 +12,7 @@ import urllib.request
 def update_env_var(base_dir: str, new_ver: str):
     files = [
         f"./{base_dir}/windowsservercore-1809/Dockerfile",
-        f"./{base_dir}/alpine3.18/Dockerfile",
+        f"./{base_dir}/alpine3.19/Dockerfile",
         "./tests/build-images.sh",
         "./tests/run-images.sh",
         "./tests/build-images-2019.ps1",
@@ -68,7 +68,7 @@ def update_windows_shasums(base_dir: str, new_ver: str, shasums: typing.Dict):
 
 
 def update_alpine_shasums(base_dir: str, new_ver: str, shasums: typing.Dict):
-    file = f"{base_dir}/alpine3.18/Dockerfile"
+    file = f"{base_dir}/alpine3.19/Dockerfile"
 
     with open(file, "r") as fd:
         data = fd.read()
