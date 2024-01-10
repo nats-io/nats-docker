@@ -1,4 +1,4 @@
-FROM alpine:3.19
+FROM alpine:3.18
 
 ENV NATS_SERVER 2.9.24
 
