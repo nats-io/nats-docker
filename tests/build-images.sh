@@ -1,4 +1,4 @@
-!/usr/bin/env bash
+#!/usr/bin/env bash
 set -ex
 
 ver=(NATS_SERVER 2.9.24)
