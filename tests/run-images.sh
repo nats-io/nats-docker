@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -ex
 
-ver=(NATS_SERVER 2.10.8)
+ver=(NATS_SERVER 2.10.9)
 
 images=(
 	"nats:${ver[1]}-alpine3.19"
@@ -15,7 +15,7 @@ for img in "${images[@]}"; do
 	docker kill "$run_id"
 done
 
-ver=(NATS_SERVER 2.10.8)
+ver=(NATS_SERVER 2.10.9)
 
 images=(
 	"nats:${ver[1]}-alpine3.19"
