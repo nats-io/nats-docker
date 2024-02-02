@@ -3,7 +3,7 @@ Set-PSDebug -Trace 2
 # Exit on error.
 $ErrorActionPreference = "Stop"
 
-$ver = 'NATS_SERVER 2.10.9'.Split(' ')[1]
+$ver = 'NATS_SERVER 2.10.10'.Split(' ')[1]
 
 Write-Output '-- host info ---'
 Write-Output $PSVersionTable
@@ -27,7 +27,7 @@ if ($LASTEXITCODE -ne 0) {
 
 cd ../..
 
-$ver = 'NATS_SERVER 2.10.9'.Split(' ')[1]
+$ver = 'NATS_SERVER 2.10.10'.Split(' ')[1]
 
 Write-Output '-- host info ---'
 Write-Output $PSVersionTable
