@@ -13,10 +13,10 @@ def update_env_var(base_dir: str, new_ver: str):
     files = [
         f"./{base_dir}/windowsservercore-1809/Dockerfile",
         f"./{base_dir}/alpine3.19/Dockerfile",
-        "./tests/build-images.sh",
-        "./tests/run-images.sh",
-        "./tests/build-images-2019.ps1",
-        "./tests/run-images-2019.ps1",
+        f"./{base_dir}/tests/build-images.sh",
+        f"./{base_dir}/tests/run-images.sh",
+        f"./{base_dir}/tests/build-images-2019.ps1",
+        f"./{base_dir}/tests/run-images-2019.ps1",
     ]
 
     r = re.compile(r"(NATS_SERVER )[0-9]+\.[0-9]+\.[0-9]+")

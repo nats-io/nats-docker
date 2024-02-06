@@ -2,27 +2,54 @@ name: Docker build testing
 on: [push, pull_request]
 
 jobs:
-  linux:
+  linux-2_9:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v1
-    - name: Build images
-      run: |
-        ./tests/build-images.sh
-    - name: Test images
-      run: |
-        ./tests/run-images.sh
-  windows-2019:
+      - name: Checkout code
+        uses: actions/checkout@v1
+      - name: Build images
+        run: |
+          cd ./2.9.x/tests && ./build-images.sh
+      - name: Test images
+        run: |
+          cd ./2.9.x/tests && ./run-images.sh
+
+  linux-2_10:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v1
+      - name: Build images
+        run: |
+          cd ./2.10.x/tests && ./build-images.sh
+      - name: Test images
+        run: |
+          cd ./2.10.x/tests && ./run-images.sh
+
+  windows-2019-2_9:
     runs-on: windows-2019
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v1
-    - name: Build images
-      shell: powershell
-      run: |
-        ./tests/build-images-2019.ps1
-    - name: Test images
-      shell: powershell
-      run: |
-        ./tests/run-images-2019.ps1
+      - name: Checkout code
+        uses: actions/checkout@v1
+      - name: Build images
+        shell: powershell
+        run: |
+          cd ./2.9.x/tests; ./build-images-2019.ps1
+      - name: Test images
+        shell: powershell
+        run: |
+          cd ./2.9.x/tests; ./run-images-2019.ps1
+
+  windows-2019-2_10:
+    runs-on: windows-2019
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v1
+      - name: Build images
+        shell: powershell
+        run: |
+          cd ./2.10.x/tests; ./build-images-2019.ps1
+      - name: Test images
+        shell: powershell
+        run: |
+          cd ./2.10.x/tests; ./run-images-2019.ps1
