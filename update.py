@@ -8,6 +8,9 @@ import shutil
 import typing
 import urllib.request
 
+semver_str = r"([0-9]+)\.([0-9]+)\.([0-9]+)(-(preview|rc)\.([0-9]+))?"
+sha256_str = r"[A-Fa-f0-9]{64}"
+
 
 # Update the NATS_SERVER env variable across applicable files.
 def update_env_var(base_dir: str, new_ver: str):
@@ -19,7 +22,7 @@ def update_env_var(base_dir: str, new_ver: str):
         f"./{base_dir}/tests/run-images-2019.ps1",
     ] +  glob.glob(f"./{base_dir}/alpine*/Dockerfile")
 
-    r = re.compile(r"(NATS_SERVER )[0-9]+\.[0-9]+\.[0-9]+")
+    r = re.compile(r"(NATS_SERVER )" + semver_str)
 
     for f in files:
         with open(f, "r") as fd:
@@ -36,7 +39,7 @@ def update_tag_var(base_dir: str, new_ver: str):
         f"./{base_dir}/scratch/Dockerfile",
     ]
 
-    r = re.compile(r"(--from=nats:)[0-9]+\.[0-9]+\.[0-9]+")
+    r = re.compile(r"(BASE_IMAGE=nats:)" + semver_str)
 
     for f in files:
         with open(f, "r") as fd:
@@ -57,7 +60,7 @@ def update_windows_shasums(base_dir: str, new_ver: str, shasums: typing.Dict):
     key = f"nats-server-v{new_ver}-windows-amd64.zip"
     sha = shasums.get(key)
 
-    r = re.compile(r"(NATS_SERVER_SHASUM )[A-Fa-f0-9]{64}")
+    r = re.compile(r"(NATS_SERVER_SHASUM )" + sha256_str)
 
     for f in files:
         with open(f, "r") as fd:
@@ -76,7 +79,7 @@ def update_alpine_shasums(base_dir: str, new_ver: str, shasums: typing.Dict):
     for arch in ["arm64", "arm6", "arm7", "amd64", "386", "s390x"]:
         key = f"nats-server-v{new_ver}-linux-{arch}.tar.gz"
         arch_sha = shasums.get(key)
-        r = re.compile(f"(natsArch='{arch}'; )"+r"sha256='[A-Fa-f0-9]{64}'")
+        r = re.compile(f"(natsArch='{arch}'; )"+r"sha256='" + sha256_str + r"'")
         data = r.sub(f"\g<1>sha256='{arch_sha}'", data)
 
     with open(file, "w") as fd:
@@ -150,11 +153,11 @@ if __name__ == "__main__":
        sys.exit(1)
 
     new_ver = sys.argv[1]
-    toks = new_ver.split(".")
-    if len(toks) != 3:
+    if not re.compile(semver_str).match(new_ver):
         print(f"invalid version: {new_ver}")
         sys.exit(1)
 
+    toks = new_ver.split(".")
     maj_ver = int(toks[0])
     min_ver = int(toks[1])
 
