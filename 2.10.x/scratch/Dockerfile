@@ -1,4 +1,4 @@
-ARG BASE_IMAGE=nats:2.10.10-alpine3.19
+ARG BASE_IMAGE=nats:2.10.11-alpine3.19
 FROM $BASE_IMAGE AS base
 
 FROM scratch
