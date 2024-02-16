@@ -1,7 +1,10 @@
+ARG BASE_IMAGE=nats:2.9.24-alpine3.18
+FROM $BASE_IMAGE AS base
+
 FROM scratch
 ENV PATH="$PATH:/"
 
-COPY --from=nats:2.9.24-alpine3.18 /usr/local/bin/nats-server /nats-server
+COPY --from=base /usr/local/bin/nats-server /nats-server
 COPY nats-server.conf /nats-server.conf
 
 EXPOSE 4222 8222 6222

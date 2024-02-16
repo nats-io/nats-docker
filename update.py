@@ -39,7 +39,7 @@ def update_tag_var(base_dir: str, new_ver: str):
         f"./{base_dir}/scratch/Dockerfile",
     ]
 
-    r = re.compile(r"(BASE_IMAGE=nats:)" + semver_str)
+    r = re.compile(r"(--from=nats:)" + semver_str)
 
     for f in files:
         with open(f, "r") as fd:
@@ -49,6 +49,21 @@ def update_tag_var(base_dir: str, new_ver: str):
             fd.write(r.sub(f"\g<1>{new_ver}", data))
 
 
+# Update the nats:x.y.z tag across applicable files.
+def update_preview_tag_var(base_dir: str, new_ver: str):
+    files = [
+        f"./{base_dir}/nanoserver-1809/Dockerfile.preview",
+        f"./{base_dir}/scratch/Dockerfile.preview",
+    ]
+
+    r = re.compile(r"(BASE_IMAGE=nats:)" + semver_str)
+
+    for f in files:
+        with open(f, "r") as fd:
+            data = fd.read()
+
+        with open(f, "w") as fd:
+            fd.write(r.sub(f"\g<1>{new_ver}", data))
 
 
 # Update the NATS SHASUM across applicable files.
@@ -178,6 +193,7 @@ if __name__ == "__main__":
     print("updating local files...")
     update_env_var(base_dir, new_ver)
     update_tag_var(base_dir, new_ver)
+    update_preview_tag_var(base_dir, new_ver)
 
     update_windows_shasums(base_dir, new_ver, shasums)
     update_alpine_shasums(base_dir, new_ver, shasums)

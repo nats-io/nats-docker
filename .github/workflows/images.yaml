@@ -46,6 +46,7 @@ jobs:
       - name: scratch
         run: |
           docker buildx build \
+            --file Dockerfile.preview \
             --build-arg "BASE_IMAGE=${{ env.IMAGE_NAME }}:${{ github.ref_name }}-alpine3.19" \
             --platform linux/arm64,linux/arm/v6,linux/arm/v7,linux/amd64,linux/386,linux/s390x \
             --tag "${{ env.IMAGE_NAME }}:${{ github.ref_name }}-scratch" \
@@ -81,6 +82,7 @@ jobs:
       - name: nanoserver-1809
         run: |
           docker build `
+            --file Dockerfile.preview `
             --build-arg "BASE_IMAGE=${{ env.IMAGE_NAME }}:${{ github.ref_name }}-windowsservercore-1809" `
             --tag "${{ env.IMAGE_NAME }}:${{ github.ref_name }}-nanoserver-1809" `
             ./2.10.x/nanoserver-1809
