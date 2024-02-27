@@ -9,8 +9,8 @@ env:
   IMAGE_NAME: "synadia/nats-server"
 
 jobs:
-  linux-2_10:
-    if: ${{ startsWith(github.ref_name,  '2.10.') }}
+  linux-2_11:
+    if: ${{ startsWith(github.ref_name,  '2.11.') }}
     runs-on: ubuntu-latest
 
     permissions:
@@ -38,23 +38,23 @@ jobs:
       - name: alpine3.19
         run: |
           docker buildx build \
-            --platform linux/arm64,linux/arm/v6,linux/arm/v7,linux/amd64,linux/386,linux/s390x \
+            --platform linux/arm64,linux/arm/v6,linux/arm/v7,linux/amd64,linux/386,linux/s390x,linux/ppc64le \
             --tag "${{ env.IMAGE_NAME }}:${{ github.ref_name }}-alpine3.19" \
             --push \
-            ./2.10.x/alpine3.19
+            ./2.11.x/alpine3.19
 
       - name: scratch
         run: |
           docker buildx build \
             --file Dockerfile.preview \
             --build-arg "BASE_IMAGE=${{ env.IMAGE_NAME }}:${{ github.ref_name }}-alpine3.19" \
-            --platform linux/arm64,linux/arm/v6,linux/arm/v7,linux/amd64,linux/386,linux/s390x \
+            --platform linux/arm64,linux/arm/v6,linux/arm/v7,linux/amd64,linux/386,linux/s390x,linux/ppc64le \
             --tag "${{ env.IMAGE_NAME }}:${{ github.ref_name }}-scratch" \
             --push \
-            ./2.10.x/scratch
+            ./2.11.x/scratch
 
-  windows-2019-2_10:
-    if: ${{ startsWith(github.ref_name,  '2.10.') }}
+  windows-2019-2_11:
+    if: ${{ startsWith(github.ref_name,  '2.11.') }}
     runs-on: windows-2019
 
     permissions:
@@ -75,7 +75,7 @@ jobs:
         run: |
           docker build `
             --tag "${{ env.IMAGE_NAME }}:${{ github.ref_name }}-windowsservercore-1809" `
-            ./2.10.x/windowsservercore-1809
+            ./2.11.x/windowsservercore-1809
 
           docker push "${{ env.IMAGE_NAME }}:${{ github.ref_name }}-windowsservercore-1809"
 
@@ -85,6 +85,6 @@ jobs:
             --file Dockerfile.preview `
             --build-arg "BASE_IMAGE=${{ env.IMAGE_NAME }}:${{ github.ref_name }}-windowsservercore-1809" `
             --tag "${{ env.IMAGE_NAME }}:${{ github.ref_name }}-nanoserver-1809" `
-            ./2.10.x/nanoserver-1809
+            ./2.11.x/nanoserver-1809
 
           docker push "${{ env.IMAGE_NAME }}:${{ github.ref_name }}-nanoserver-1809"
