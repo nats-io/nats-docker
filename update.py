@@ -10,6 +10,7 @@ import urllib.request
 
 semver_str = r"([0-9]+)\.([0-9]+)\.([0-9]+)(-(preview|rc)\.([0-9]+))?"
 sha256_str = r"[A-Fa-f0-9]{64}"
+default_sha256 = "0000000000000000000000000000000000000000000000000000000000000000"
 
 
 # Update the NATS_SERVER env variable across applicable files.
@@ -73,7 +74,7 @@ def update_windows_shasums(base_dir: str, new_ver: str, shasums: typing.Dict):
     ]
 
     key = f"nats-server-v{new_ver}-windows-amd64.zip"
-    sha = shasums.get(key)
+    sha = shasums.get(key, default_sha256)
 
     r = re.compile(r"(NATS_SERVER_SHASUM )" + sha256_str)
 
@@ -91,9 +92,9 @@ def update_alpine_shasums(base_dir: str, new_ver: str, shasums: typing.Dict):
     with open(file, "r") as fd:
         data = fd.read()
 
-    for arch in ["arm64", "arm6", "arm7", "amd64", "386", "s390x", "ppc64le"]:
+    for arch in ("arm64", "arm6", "arm7", "amd64", "386", "s390x", "ppc64le"):
         key = f"nats-server-v{new_ver}-linux-{arch}.tar.gz"
-        arch_sha = shasums.get(key)
+        arch_sha = shasums.get(key, default_sha256)
         r = re.compile(f"(natsArch='{arch}'; )"+r"sha256='" + sha256_str + r"'")
         data = r.sub(f"\g<1>sha256='{arch_sha}'", data)
 

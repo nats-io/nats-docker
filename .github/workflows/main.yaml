@@ -26,6 +26,18 @@ jobs:
         run: |
           cd ./2.10.x/tests && ./run-images.sh
 
+  linux-2_11:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v1
+      - name: Build images
+        run: |
+          cd ./2.11.x/tests && ./build-images.sh
+      - name: Test images
+        run: |
+          cd ./2.11.x/tests && ./run-images.sh
+
   windows-2019-2_9:
     runs-on: windows-2019
     steps:
@@ -53,3 +65,17 @@ jobs:
         shell: powershell
         run: |
           cd ./2.10.x/tests; ./run-images-2019.ps1
+
+  windows-2019-2_11:
+    runs-on: windows-2019
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v1
+      - name: Build images
+        shell: powershell
+        run: |
+          cd ./2.11.x/tests; ./build-images-2019.ps1
+      - name: Test images
+        shell: powershell
+        run: |
+          cd ./2.11.x/tests; ./run-images-2019.ps1
