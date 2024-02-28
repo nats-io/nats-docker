@@ -35,20 +35,29 @@ jobs:
         run: |
           docker buildx create --name builder --bootstrap --use
 
+        # https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#setting-an-output-parameter
+      - name: Tag Version
+        id: ref
+        shell: bash
+        run: |
+          TAG=${{ github.ref_name }}
+          echo "TAG=${TAG#v}" >> "$GITHUB_OUTPUT"
+
       - name: alpine3.19
         run: |
           docker buildx build \
             --platform linux/arm64,linux/arm/v6,linux/arm/v7,linux/amd64,linux/386,linux/s390x,linux/ppc64le \
-            --tag "${{ env.IMAGE_NAME }}:${{ github.ref_name }}-alpine3.19" \
+            --tag "${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-alpine3.19" \
             --push \
             ./2.11.x/alpine3.19
 
       - name: scratch
         run: |
           docker buildx build \
-            --build-arg "BASE_IMAGE=${{ env.IMAGE_NAME }}:${{ github.ref_name }}-alpine3.19" \
+            --file Dockerfile.preview \
+            --build-arg "BASE_IMAGE=${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-alpine3.19" \
             --platform linux/arm64,linux/arm/v6,linux/arm/v7,linux/amd64,linux/386,linux/s390x,linux/ppc64le \
-            --tag "${{ env.IMAGE_NAME }}:${{ github.ref_name }}-scratch" \
+            --tag "${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-scratch" \
             --push \
             ./2.11.x/scratch
 
@@ -69,20 +78,32 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_TOKEN }}
 
+        # NOTE: bash is supported on Windows runners
+        # https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#setting-an-output-parameter
+      - name: Tag Version
+        id: ref
+        shell: bash
+        run: |
+          TAG=${{ github.ref_name }}
+          echo "TAG=${TAG#v}" >> "$GITHUB_OUTPUT"
+
         # Buildx is not supported on Windows yet.
       - name: windowsservercore-1809
+        shell: pwsh
         run: |
           docker build `
-            --tag "${{ env.IMAGE_NAME }}:${{ github.ref_name }}-windowsservercore-1809" `
+            --tag "${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-windowsservercore-1809" `
             ./2.11.x/windowsservercore-1809
 
-          docker push "${{ env.IMAGE_NAME }}:${{ github.ref_name }}-windowsservercore-1809"
+          docker push "${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-windowsservercore-1809"
 
       - name: nanoserver-1809
+        shell: pwsh
         run: |
           docker build `
-            --build-arg "BASE_IMAGE=${{ env.IMAGE_NAME }}:${{ github.ref_name }}-windowsservercore-1809" `
-            --tag "${{ env.IMAGE_NAME }}:${{ github.ref_name }}-nanoserver-1809" `
+            --file Dockerfile.preview `
+            --build-arg "BASE_IMAGE=${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-windowsservercore-1809" `
+            --tag "${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-nanoserver-1809" `
             ./2.11.x/nanoserver-1809
 
-          docker push "${{ env.IMAGE_NAME }}:${{ github.ref_name }}-nanoserver-1809"
+          docker push "${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-nanoserver-1809"
