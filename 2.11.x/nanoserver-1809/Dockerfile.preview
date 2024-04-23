@@ -1,4 +1,4 @@
-ARG BASE_IMAGE=nats:2.11.0-preview.1-windowsservercore-1809
+ARG BASE_IMAGE=nats:2.11.0-preview.2-windowsservercore-1809
 FROM $BASE_IMAGE AS base
 
 FROM mcr.microsoft.com/windows/nanoserver:1809
