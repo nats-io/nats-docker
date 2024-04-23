@@ -27,6 +27,10 @@ RUN set -eux; \
 COPY nats-server.conf /etc/nats/nats-server.conf
 COPY docker-entrypoint.sh /usr/local/bin
 
+RUN apk add --no-cache libcap \
+  && setcap cap_net_bind_service=+ep /usr/local/bin/nats-server \
+  && apk del libcap
+
 EXPOSE 4222 8222 6222
 ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["nats-server", "--config", "/etc/nats/nats-server.conf"]
