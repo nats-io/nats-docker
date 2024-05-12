@@ -1,7 +1,7 @@
-ARG BASE_IMAGE=nats:2.10.29-windowsservercore-1809
+ARG BASE_IMAGE=nats:2.11.4-windowsservercore-ltsc2025
 FROM $BASE_IMAGE AS base
 
-FROM mcr.microsoft.com/windows/nanoserver:1809
+FROM mcr.microsoft.com/windows/nanoserver:ltsc2025
 ENV NATS_DOCKERIZED 1
 
 COPY --from=base C:\\nats-server.exe C:\\nats-server.exe

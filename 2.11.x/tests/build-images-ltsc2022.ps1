@@ -11,16 +11,16 @@ Write-Output (Get-WMIObject win32_operatingsystem).name
 Write-Output (Get-WMIObject win32_operatingsystem).OSArchitecture
 
 # The windowsservercore images must be built before the nanoserver images.
-cd "../windowsservercore-1809"
-Write-Host "building windowsservercore-1809"
-docker build --tag "nats:${ver}-windowsservercore-1809" .
+cd "../windowsservercore-ltsc2022"
+Write-Host "building windowsservercore-ltsc2022"
+docker build --tag "nats:${ver}-windowsservercore-ltsc2022" .
 if ($LASTEXITCODE -ne 0) {
     exit 1
 }
 
-cd "../nanoserver-1809"
-Write-Host "building nanoserver-1809"
-docker build --tag "nats:${ver}-nanoserver-1809" .
+cd "../nanoserver-ltsc2022"
+Write-Host "building nanoserver-ltsc2022"
+docker build --tag "nats:${ver}-nanoserver-ltsc2022" .
 if ($LASTEXITCODE -ne 0) {
     exit 1
 }

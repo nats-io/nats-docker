@@ -5,6 +5,9 @@ on:
     tags:
       - "*"
 
+permissions:
+  contents: read
+
 env:
   IMAGE_NAME: "synadia/nats-server"
   LINUX_ARCHS: "linux/arm64,linux/arm/v6,linux/arm/v7,linux/amd64,linux/386,linux/s390x,linux/ppc64le"
@@ -14,9 +17,6 @@ jobs:
     name: Build Linux (2.10.x)
     if: ${{ startsWith(github.ref_name,  'v2.10.') }}
     runs-on: ubuntu-latest
-
-    permissions:
-      contents: read
 
     steps:
       - name: Checkout repository
@@ -60,13 +60,18 @@ jobs:
           build-args: |
             BASE_IMAGE=${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-alpine3.22
 
-  windows-2019-2_10:
-    name: Build Windows (2.10.x)
+  windows-2_10:
+    name: Test Windows Server LTSC ${{ matrix.ltsc }} (${{ matrix.version }})
     if: ${{ startsWith(github.ref_name,  'v2.10.') }}
-    runs-on: windows-2019
-
-    permissions:
-      contents: read
+    runs-on: windows-${{ matrix.ltsc }}
+    strategy:
+      fail-fast: false
+      matrix:
+        version:
+          - 2.10.x
+        ltsc:
+          - 2022
+          # - 2025
 
     steps:
       - name: Checkout repository
@@ -88,33 +93,30 @@ jobs:
           echo "TAG=${TAG#v}" >> "$GITHUB_OUTPUT"
 
         # Buildx is not supported on Windows yet.
-      - name: windowsservercore-1809
+      - name: windowsservercore-ltsc${{ matrix.ltsc }}
         shell: pwsh
         run: |
           docker build `
-            --tag "${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-windowsservercore-1809" `
-            ./2.10.x/windowsservercore-1809
+            --tag "${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-windowsservercore-ltsc${{ matrix.ltsc }}" `
+            ./${{ matrix.version }}/windowsservercore-ltsc${{ matrix.ltsc }}
 
-          docker push "${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-windowsservercore-1809"
+          docker push "${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-windowsservercore-ltsc${{ matrix.ltsc }}"
 
-      - name: nanoserver-1809
+      - name: nanoserver-ltsc${{ matrix.ltsc }}
         shell: pwsh
         run: |
           docker build `
-            --file ./2.10.x/nanoserver-1809/Dockerfile.preview `
-            --build-arg "BASE_IMAGE=${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-windowsservercore-1809" `
-            --tag "${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-nanoserver-1809" `
-            ./2.10.x/nanoserver-1809
+            --file ./${{ matrix.version }}/nanoserver-ltsc${{ matrix.ltsc }}/Dockerfile.preview `
+            --build-arg "BASE_IMAGE=${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-windowsservercore-ltsc${{ matrix.ltsc }}" `
+            --tag "${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-nanoserver-ltsc${{ matrix.ltsc }}" `
+            ./${{ matrix.version }}/nanoserver-ltsc${{ matrix.ltsc }}
 
-          docker push "${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-nanoserver-1809"
+          docker push "${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-nanoserver-ltsc${{ matrix.ltsc }}"
 
   linux-2_11:
     name: Build Linux (2.11.x)
     if: ${{ startsWith(github.ref_name,  'v2.11.') }}
     runs-on: ubuntu-latest
-
-    permissions:
-      contents: read
 
     steps:
       - name: Checkout repository
@@ -157,13 +159,18 @@ jobs:
           build-args: |
             BASE_IMAGE=${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-alpine3.22
 
-  windows-2019-2_11:
-    name: Build Windows (2.11.x)
+  windows-2_11:
+    name: Test Windows Server LTSC ${{ matrix.ltsc }} (${{ matrix.version }})
     if: ${{ startsWith(github.ref_name,  'v2.11.') }}
-    runs-on: windows-2019
-
-    permissions:
-      contents: read
+    runs-on: windows-${{ matrix.ltsc }}
+    strategy:
+      fail-fast: false
+      matrix:
+        version:
+          - 2.11.x
+        ltsc:
+          - 2022
+          # - 2025
 
     steps:
       - name: Checkout repository
@@ -185,22 +192,22 @@ jobs:
           echo "TAG=${TAG#v}" >> "$GITHUB_OUTPUT"
 
         # Buildx is not supported on Windows yet.
-      - name: windowsservercore-1809
+      - name: windowsservercore-ltsc${{ matrix.ltsc }}
         shell: pwsh
         run: |
           docker build `
-            --tag "${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-windowsservercore-1809" `
-            ./2.11.x/windowsservercore-1809
+            --tag "${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-windowsservercore-ltsc${{ matrix.ltsc }}" `
+            ./${{ matrix.version }}/windowsservercore-ltsc${{ matrix.ltsc }}
 
-          docker push "${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-windowsservercore-1809"
+          docker push "${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-windowsservercore-ltsc${{ matrix.ltsc }}"
 
-      - name: nanoserver-1809
+      - name: nanoserver-ltsc${{ matrix.ltsc }}
         shell: pwsh
         run: |
           docker build `
-            --file ./2.11.x/nanoserver-1809/Dockerfile.preview `
-            --build-arg "BASE_IMAGE=${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-windowsservercore-1809" `
-            --tag "${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-nanoserver-1809" `
-            ./2.11.x/nanoserver-1809
+            --file ./${{ matrix.version }}/nanoserver-ltsc${{ matrix.ltsc }}/Dockerfile.preview `
+            --build-arg "BASE_IMAGE=${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-windowsservercore-ltsc${{ matrix.ltsc }}" `
+            --tag "${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-nanoserver-ltsc${{ matrix.ltsc }}" `
+            ./${{ matrix.version }}/nanoserver-ltsc${{ matrix.ltsc }}
 
-          docker push "${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-nanoserver-1809"
+          docker push "${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-nanoserver-ltsc${{ matrix.ltsc }}"

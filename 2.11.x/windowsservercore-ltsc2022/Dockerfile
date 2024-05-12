@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/windows/servercore:1809
+FROM mcr.microsoft.com/windows/servercore:ltsc2022
 
 # Enable exit on error.
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop';"]

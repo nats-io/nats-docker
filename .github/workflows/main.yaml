@@ -1,6 +1,9 @@
 name: Docker build testing
 on: [push, pull_request]
 
+permissions:
+  contents: read
+
 jobs:
   linux:
     name: Test Linux (${{ matrix.version }})
@@ -22,22 +25,25 @@ jobs:
           cd ./${{ matrix.version }}/tests && ./run-images.sh
 
   windows:
-    name: Test Windows Server 2019 (${{ matrix.version }})
-    runs-on: windows-2019
+    name: Test Windows Server LTSC ${{ matrix.ltsc }} (${{ matrix.version }})
+    runs-on: windows-${{ matrix.ltsc }}
     strategy:
       fail-fast: false
       matrix:
         version:
           - 2.10.x
           - 2.11.x
+        ltsc:
+          - 2022
+          # - 2025
     steps:
       - name: Checkout code
         uses: actions/checkout@v1
       - name: Build images
         shell: powershell
         run: |
-          cd ./${{ matrix.version }}/tests; ./build-images-2019.ps1
+          cd ./${{ matrix.version }}/tests; ./build-images-ltsc${{ matrix.ltsc }}.ps1
       - name: Test images
         shell: powershell
         run: |
-          cd ./${{ matrix.version }}/tests; ./run-images-2019.ps1
+          cd ./${{ matrix.version }}/tests; ./run-images-ltsc${{ matrix.ltsc }}.ps1
