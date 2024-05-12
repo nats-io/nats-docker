@@ -79,3 +79,17 @@ jobs:
         shell: powershell
         run: |
           cd ./2.11.x/tests; ./run-images-2019.ps1
+
+  windows-2022-2_11:
+    runs-on: windows-2022
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v1
+      - name: Build images
+        shell: powershell
+        run: |
+          cd ./2.11.x/tests; ./build-images-2022.ps1
+      - name: Test images
+        shell: powershell
+        run: |
+          cd ./2.11.x/tests; ./run-images-2022.ps1
