@@ -8,7 +8,7 @@ import shutil
 import typing
 import urllib.request
 
-semver_str = r"([0-9]+)\.([0-9]+)\.([0-9]+)(-(preview|rc)\.([0-9]+))?"
+semver_str = r"([0-9]+)\.([0-9]+)\.([0-9]+)(-(preview|rc|RC)\.([0-9]+))?"
 sha256_str = r"[A-Fa-f0-9]{64}"
 default_sha256 = "0000000000000000000000000000000000000000000000000000000000000000"
 
