@@ -43,19 +43,19 @@ jobs:
           TAG=${{ github.ref_name }}
           echo "TAG=${TAG#v}" >> "$GITHUB_OUTPUT"
 
-      - name: alpine3.19
+      - name: alpine3.20
         run: |
           docker buildx build \
             --platform linux/arm64,linux/arm/v6,linux/arm/v7,linux/amd64,linux/386,linux/s390x,linux/ppc64le \
-            --tag "${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-alpine3.19" \
+            --tag "${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-alpine3.20" \
             --push \
-            ./2.10.x/alpine3.19
+            ./2.10.x/alpine3.20
 
       - name: scratch
         run: |
           docker buildx build \
             --file ./2.10.x/scratch/Dockerfile.preview \
-            --build-arg "BASE_IMAGE=${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-alpine3.19" \
+            --build-arg "BASE_IMAGE=${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-alpine3.20" \
             --platform linux/arm64,linux/arm/v6,linux/arm/v7,linux/amd64,linux/386,linux/s390x,linux/ppc64le \
             --tag "${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-scratch" \
             --push \
@@ -142,19 +142,19 @@ jobs:
           TAG=${{ github.ref_name }}
           echo "TAG=${TAG#v}" >> "$GITHUB_OUTPUT"
 
-      - name: alpine3.19
+      - name: alpine3.20
         run: |
           docker buildx build \
             --platform linux/arm64,linux/arm/v6,linux/arm/v7,linux/amd64,linux/386,linux/s390x,linux/ppc64le \
-            --tag "${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-alpine3.19" \
+            --tag "${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-alpine3.20" \
             --push \
-            ./2.11.x/alpine3.19
+            ./2.11.x/alpine3.20
 
       - name: scratch
         run: |
           docker buildx build \
             --file ./2.11.x/scratch/Dockerfile.preview \
-            --build-arg "BASE_IMAGE=${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-alpine3.19" \
+            --build-arg "BASE_IMAGE=${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-alpine3.20" \
             --platform linux/arm64,linux/arm/v6,linux/arm/v7,linux/amd64,linux/386,linux/s390x,linux/ppc64le \
             --tag "${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-scratch" \
             --push \
