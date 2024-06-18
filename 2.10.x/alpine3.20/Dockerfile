@@ -1,17 +1,17 @@
 FROM alpine:3.20
 
-ENV NATS_SERVER 2.10.17-RC.4
+ENV NATS_SERVER 2.10.17-RC.5
 
 RUN set -eux; \
 	apkArch="$(apk --print-arch)"; \
 	case "$apkArch" in \
-		aarch64) natsArch='arm64'; sha256='31569d0c21f2c73a2da6cfed569e268619b4f94a4f660478069b0f924a9d6712' ;; \
-		armhf) natsArch='arm6'; sha256='e67459076950296a90ad9521e98fc86b49d51d4d5fdd701712e63b34f9f919e1' ;; \
-		armv7) natsArch='arm7'; sha256='02706f183adba4f92b92cf9eb833e1ae8c6784b50c7aaa2808e21229dba04fc9' ;; \
-		x86_64) natsArch='amd64'; sha256='df6c2e5d120431447bb9b00549a1d39e4be67c0330e432e1446d464fa6a7cf04' ;; \
-		x86) natsArch='386'; sha256='a6f9450ed00f41fe1b6343414294f26418072e936d3d03431ade96cafb597b26' ;; \
-		s390x) natsArch='s390x'; sha256='cc0e96a5dad3abf001c17c6292528dcf593da3bebcbdbec4559960e547f2bd4e' ;; \
-		ppc64le) natsArch='ppc64le'; sha256='9bacde725e1d49be854554f782df2a901e3abe74b6527b1c030be77343786989' ;; \
+		aarch64) natsArch='arm64'; sha256='c4e2ccd5985773612d4ae5a2e27ea06d389e9086d084736a84043902d99dcda2' ;; \
+		armhf) natsArch='arm6'; sha256='6b75bfd29dcac3fb5433b70a157a99c3aa8f561a47972f813e9873eb89037498' ;; \
+		armv7) natsArch='arm7'; sha256='da4cc1388096086be3cc80e1e1a552fb3d565df4d8358a885a75b7533c588df7' ;; \
+		x86_64) natsArch='amd64'; sha256='6664ba97c9f2644ab03ba22c2dc728afff6107ab588f9100113aac698c17c2e3' ;; \
+		x86) natsArch='386'; sha256='393dc89d9486b843feba21266bab37c38cc9fd2d57aae82ed1c35159ade18c4b' ;; \
+		s390x) natsArch='s390x'; sha256='0031e1739432f126648a4c5fe7b52e41ba17309f293b60153547e3052d8c3d15' ;; \
+		ppc64le) natsArch='ppc64le'; sha256='d350be45ba196f89fffdc6b7c33e9d1a8a9a9e9d916146f267c9fb0ce08cbaf6' ;; \
 		*) echo >&2 "error: $apkArch is not supported!"; exit 1 ;; \
 	esac; \
 	\
