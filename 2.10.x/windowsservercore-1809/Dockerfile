@@ -4,9 +4,9 @@ FROM mcr.microsoft.com/windows/servercore:1809
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop';"]
 
 ENV NATS_DOCKERIZED 1
-ENV NATS_SERVER 2.10.18-RC.3
+ENV NATS_SERVER 2.10.18-RC.4
 ENV NATS_SERVER_DOWNLOAD https://github.com/nats-io/nats-server/releases/download/v${NATS_SERVER}/nats-server-v${NATS_SERVER}-windows-amd64.zip
-ENV NATS_SERVER_SHASUM 042cb4ed32e3d42fc9f9c0c92f69dab26f7eed1853325e73c366745a1e9fa80f
+ENV NATS_SERVER_SHASUM 4d483509b714ddd62dff1fd8d27ba8eb321118f70e4bef6202ca09430a6471c6
 
 RUN Set-PSDebug -Trace 2
 
