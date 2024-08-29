@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -ex
 
-ver=(NATS_SERVER 2.10.19)
+ver=(NATS_SERVER 2.10.20)
 
 (
 	cd "../alpine3.20"
