@@ -1,6 +1,9 @@
 name: Docker build testing
 on: [push, pull_request]
 
+env:
+  IMAGE_NAME: "synadia/nats-server"
+
 jobs:
   linux-2_9:
     runs-on: ubuntu-latest
@@ -15,6 +18,7 @@ jobs:
           cd ./2.9.x/tests && ./run-images.sh
 
   linux-2_10:
+    name: Server 2.10
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
