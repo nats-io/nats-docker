@@ -65,7 +65,7 @@ jobs:
           push: false
           provenance: mode=max
           tags: nats:${{ steps.ref.outputs.TAG }}-${{ matrix.type }}
-          file: ./2.10.x/${{ matrix.type }}
+          context: ./2.10.x/${{ matrix.type }}/
 
   linux-2_11:
     runs-on: ubuntu-latest
