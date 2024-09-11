@@ -2,80 +2,42 @@ name: Docker build testing
 on: [push, pull_request]
 
 jobs:
-  linux-2_9:
+  linux:
+    name: Linux (${{ matrix.version }})
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        version:
+          - 2.10.x
+          - 2.11.x
     steps:
       - name: Checkout code
         uses: actions/checkout@v1
-      - name: Build images
+      - name: Build ${{ matrix.version }} images
         run: |
-          cd ./2.9.x/tests && ./build-images.sh
-      - name: Test images
+          cd ./${{ matrix.version }}/tests && ./build-images.sh
+      - name: Test ${{ matrix.version }} images
         run: |
-          cd ./2.9.x/tests && ./run-images.sh
+          cd ./${{ matrix.version }}/tests && ./run-images.sh
 
-  linux-2_10:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v1
-      - name: Build images
-        run: |
-          cd ./2.10.x/tests && ./build-images.sh
-      - name: Test images
-        run: |
-          cd ./2.10.x/tests && ./run-images.sh
-
-  linux-2_11:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v1
-      - name: Build images
-        run: |
-          cd ./2.11.x/tests && ./build-images.sh
-      - name: Test images
-        run: |
-          cd ./2.11.x/tests && ./run-images.sh
-
-  windows-2019-2_9:
+  windows:
+    name: Windows Server 2019 (${{ matrix.version }})
     runs-on: windows-2019
+    strategy:
+      fail-fast: false
+      matrix:
+        version:
+          - 2.10.x
+          - 2.11.x
     steps:
       - name: Checkout code
         uses: actions/checkout@v1
       - name: Build images
         shell: powershell
         run: |
-          cd ./2.9.x/tests; ./build-images-2019.ps1
+          cd ./${{ matrix.version }}/tests; ./build-images-2019.ps1
       - name: Test images
         shell: powershell
         run: |
-          cd ./2.9.x/tests; ./run-images-2019.ps1
-
-  windows-2019-2_10:
-    runs-on: windows-2019
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v1
-      - name: Build images
-        shell: powershell
-        run: |
-          cd ./2.10.x/tests; ./build-images-2019.ps1
-      - name: Test images
-        shell: powershell
-        run: |
-          cd ./2.10.x/tests; ./run-images-2019.ps1
-
-  windows-2019-2_11:
-    runs-on: windows-2019
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v1
-      - name: Build images
-        shell: powershell
-        run: |
-          cd ./2.11.x/tests; ./build-images-2019.ps1
-      - name: Test images
-        shell: powershell
-        run: |
-          cd ./2.11.x/tests; ./run-images-2019.ps1
+          cd ./${{ matrix.version }}/tests; ./run-images-2019.ps1
