@@ -1,9 +1,6 @@
 name: Docker build testing
 on: [push, pull_request]
 
-env:
-  IMAGE_NAME: "synadia/nats-server"
-
 jobs:
   linux-2_9:
     runs-on: ubuntu-latest
