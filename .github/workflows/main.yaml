@@ -9,7 +9,6 @@ jobs:
       fail-fast: false
       matrix:
         version:
-          - 2.9.x
           - 2.10.x
           - 2.11.x
     steps:
@@ -29,7 +28,6 @@ jobs:
       fail-fast: false
       matrix:
         version:
-          - 2.9.x
           - 2.10.x
           - 2.11.x
     steps:
