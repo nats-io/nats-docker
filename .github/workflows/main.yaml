@@ -64,7 +64,7 @@ jobs:
           platforms: ${{ matrix.platform }}
           push: false
           provenance: mode=max
-          tags: ${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-${{ matrix.type }}
+          tags: nats:${{ steps.ref.outputs.TAG }}-${{ matrix.type }}
           file: ./2.10.x/${{ matrix.type }}
 
   linux-2_11:
