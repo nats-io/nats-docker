@@ -3,7 +3,7 @@ on: [push, pull_request]
 
 jobs:
   linux:
-    name: Linux (${{ matrix.version }})
+    name: Test Linux (${{ matrix.version }})
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -22,7 +22,7 @@ jobs:
           cd ./${{ matrix.version }}/tests && ./run-images.sh
 
   windows:
-    name: Windows Server 2019 (${{ matrix.version }})
+    name: Test Windows Server 2019 (${{ matrix.version }})
     runs-on: windows-2019
     strategy:
       fail-fast: false
