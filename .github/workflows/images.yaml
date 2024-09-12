@@ -7,9 +7,11 @@ on:
 
 env:
   IMAGE_NAME: "synadia/nats-server"
+  LINUX_ARCHS: "linux/arm64,linux/arm/v6,linux/arm/v7,linux/amd64,linux/386,linux/s390x,linux/ppc64le"
 
 jobs:
   linux-2_10:
+    name: Build Linux (2.10.x)
     if: ${{ startsWith(github.ref_name,  'v2.10.') }}
     runs-on: ubuntu-latest
 
@@ -26,14 +28,8 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_TOKEN }}
 
-        # Setting up Docker Buildx with docker-container driver is required
-        # at the moment to be able to use a subdirectory with Git context.
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
-
-      - name: Setup builder
-        run: |
-          docker buildx create --name builder --bootstrap --use
 
         # https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#setting-an-output-parameter
       - name: Tag Version
@@ -43,25 +39,29 @@ jobs:
           TAG=${{ github.ref_name }}
           echo "TAG=${TAG#v}" >> "$GITHUB_OUTPUT"
 
-      - name: alpine3.20
-        run: |
-          docker buildx build \
-            --platform linux/arm64,linux/arm/v6,linux/arm/v7,linux/amd64,linux/386,linux/s390x,linux/ppc64le \
-            --tag "${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-alpine3.20" \
-            --push \
-            ./2.10.x/alpine3.20
+      - name: Alpine 3.20
+        uses: docker/build-push-action@v6
+        with:
+          context: ./2.10.x/alpine3.20/
+          platforms: ${{ env.LINUX_ARCHS }}
+          push: true
+          tags: ${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-alpine3.20
+          provenance: mode=max
 
-      - name: scratch
-        run: |
-          docker buildx build \
-            --file ./2.10.x/scratch/Dockerfile.preview \
-            --build-arg "BASE_IMAGE=${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-alpine3.20" \
-            --platform linux/arm64,linux/arm/v6,linux/arm/v7,linux/amd64,linux/386,linux/s390x,linux/ppc64le \
-            --tag "${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-scratch" \
-            --push \
-            ./2.10.x/scratch
+      - name: Scratch
+        uses: docker/build-push-action@v6
+        with:
+          context: ./2.10.x/scratch/
+          file: ./2.10.x/scratch/Dockerfile.preview
+          platforms: ${{ env.LINUX_ARCHS }}
+          push: true
+          tags: ${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-scratch
+          provenance: mode=max
+          build-args: |
+            BASE_IMAGE=${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-alpine3.20
 
   windows-2019-2_10:
+    name: Build Windows (2.10.x)
     if: ${{ startsWith(github.ref_name,  'v2.10.') }}
     runs-on: windows-2019
 
@@ -109,6 +109,7 @@ jobs:
           docker push "${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-nanoserver-1809"
 
   linux-2_11:
+    name: Build Linux (2.11.x)
     if: ${{ startsWith(github.ref_name,  'v2.11.') }}
     runs-on: ubuntu-latest
 
@@ -125,16 +126,9 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_TOKEN }}
 
-        # Setting up Docker Buildx with docker-container driver is required
-        # at the moment to be able to use a subdirectory with Git context.
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Setup builder
-        run: |
-          docker buildx create --name builder --bootstrap --use
-
-        # https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#setting-an-output-parameter
       - name: Tag Version
         id: ref
         shell: bash
@@ -142,25 +136,29 @@ jobs:
           TAG=${{ github.ref_name }}
           echo "TAG=${TAG#v}" >> "$GITHUB_OUTPUT"
 
-      - name: alpine3.20
-        run: |
-          docker buildx build \
-            --platform linux/arm64,linux/arm/v6,linux/arm/v7,linux/amd64,linux/386,linux/s390x,linux/ppc64le \
-            --tag "${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-alpine3.20" \
-            --push \
-            ./2.11.x/alpine3.20
+      - name: Alpine 3.20
+        uses: docker/build-push-action@v6
+        with:
+          context: ./2.11.x/alpine3.20/
+          platforms: ${{ env.LINUX_ARCHS }}
+          push: true
+          tags: ${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-alpine3.20
+          provenance: mode=max
 
-      - name: scratch
-        run: |
-          docker buildx build \
-            --file ./2.11.x/scratch/Dockerfile.preview \
-            --build-arg "BASE_IMAGE=${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-alpine3.20" \
-            --platform linux/arm64,linux/arm/v6,linux/arm/v7,linux/amd64,linux/386,linux/s390x,linux/ppc64le \
-            --tag "${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-scratch" \
-            --push \
-            ./2.11.x/scratch
+      - name: Scratch
+        uses: docker/build-push-action@v6
+        with:
+          context: ./2.11.x/scratch/
+          file: ./2.11.x/scratch/Dockerfile.preview
+          platforms: ${{ env.LINUX_ARCHS }}
+          push: true
+          tags: ${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-scratch
+          provenance: mode=max
+          build-args: |
+            BASE_IMAGE=${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-alpine3.20
 
   windows-2019-2_11:
+    name: Build Windows (2.11.x)
     if: ${{ startsWith(github.ref_name,  'v2.11.') }}
     runs-on: windows-2019
 
