@@ -1,4 +1,4 @@
-ARG BASE_IMAGE=nats:2.10.23-RC.6-windowsservercore-1809
+ARG BASE_IMAGE=nats:2.10.23-RC.7-windowsservercore-1809
 FROM $BASE_IMAGE AS base
 
 FROM mcr.microsoft.com/windows/nanoserver:1809
