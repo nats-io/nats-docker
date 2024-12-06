@@ -1,4 +1,4 @@
-FROM alpine:3.20
+FROM alpine:3.21
 
 ENV NATS_SERVER 2.11.0-preview.2
 

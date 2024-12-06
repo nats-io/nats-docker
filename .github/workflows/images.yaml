@@ -39,13 +39,13 @@ jobs:
           TAG=${{ github.ref_name }}
           echo "TAG=${TAG#v}" >> "$GITHUB_OUTPUT"
 
-      - name: Alpine 3.20
+      - name: Alpine 3.21
         uses: docker/build-push-action@v6
         with:
-          context: ./2.10.x/alpine3.20/
+          context: ./2.10.x/alpine3.21/
           platforms: ${{ env.LINUX_ARCHS }}
           push: true
-          tags: ${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-alpine3.20
+          tags: ${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-alpine3.21
           provenance: mode=max
 
       - name: Scratch
@@ -58,7 +58,7 @@ jobs:
           tags: ${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-scratch
           provenance: mode=max
           build-args: |
-            BASE_IMAGE=${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-alpine3.20
+            BASE_IMAGE=${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-alpine3.21
 
   windows-2019-2_10:
     name: Build Windows (2.10.x)
@@ -136,13 +136,13 @@ jobs:
           TAG=${{ github.ref_name }}
           echo "TAG=${TAG#v}" >> "$GITHUB_OUTPUT"
 
-      - name: Alpine 3.20
+      - name: Alpine 3.21
         uses: docker/build-push-action@v6
         with:
-          context: ./2.11.x/alpine3.20/
+          context: ./2.11.x/alpine3.21/
           platforms: ${{ env.LINUX_ARCHS }}
           push: true
-          tags: ${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-alpine3.20
+          tags: ${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-alpine3.21
           provenance: mode=max
 
       - name: Scratch
@@ -155,7 +155,7 @@ jobs:
           tags: ${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-scratch
           provenance: mode=max
           build-args: |
-            BASE_IMAGE=${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-alpine3.20
+            BASE_IMAGE=${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-alpine3.21
 
   windows-2019-2_11:
     name: Build Windows (2.11.x)
