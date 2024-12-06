@@ -1,4 +1,4 @@
-FROM alpine:3.20
+FROM alpine:3.21
 
 ENV NATS_SERVER 2.10.23-RC.10
 

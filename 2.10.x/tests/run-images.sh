@@ -4,7 +4,7 @@ set -ex
 ver=(NATS_SERVER 2.10.23-RC.10)
 
 images=(
-	"nats:${ver[1]}-alpine3.20"
+	"nats:${ver[1]}-alpine3.21"
 	"nats:${ver[1]}-scratch"
 )
 
