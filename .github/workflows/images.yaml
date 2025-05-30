@@ -42,10 +42,10 @@ jobs:
       - name: Alpine 3.21
         uses: docker/build-push-action@v6
         with:
-          context: ./2.10.x/alpine3.21/
+          context: ./2.10.x/alpine3.22/
           platforms: ${{ env.LINUX_ARCHS }}
           push: true
-          tags: ${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-alpine3.21
+          tags: ${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-alpine3.22
           provenance: mode=max
 
       - name: Scratch
@@ -58,7 +58,7 @@ jobs:
           tags: ${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-scratch
           provenance: mode=max
           build-args: |
-            BASE_IMAGE=${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-alpine3.21
+            BASE_IMAGE=${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-alpine3.22
 
   windows-2019-2_10:
     name: Build Windows (2.10.x)
@@ -139,10 +139,10 @@ jobs:
       - name: Alpine 3.21
         uses: docker/build-push-action@v6
         with:
-          context: ./2.11.x/alpine3.21/
+          context: ./2.11.x/alpine3.22/
           platforms: ${{ env.LINUX_ARCHS }}
           push: true
-          tags: ${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-alpine3.21
+          tags: ${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-alpine3.22
           provenance: mode=max
 
       - name: Scratch
@@ -155,7 +155,7 @@ jobs:
           tags: ${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-scratch
           provenance: mode=max
           build-args: |
-            BASE_IMAGE=${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-alpine3.21
+            BASE_IMAGE=${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-alpine3.22
 
   windows-2019-2_11:
     name: Build Windows (2.11.x)

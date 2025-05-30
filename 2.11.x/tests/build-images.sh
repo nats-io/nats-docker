@@ -4,8 +4,8 @@ set -ex
 ver=(NATS_SERVER 2.11.4)
 
 (
-	cd "../alpine3.21"
-	docker build --tag nats:${ver[1]}-alpine3.21 .
+	cd "../alpine3.22"
+	docker build --tag nats:${ver[1]}-alpine3.22 .
 )
 
 (
