@@ -6,8 +6,8 @@ $ErrorActionPreference = "Stop"
 $ver = "NATS_SERVER 2.10.29".Split(" ")[1]
 
 $images = @(
-	"nats:${ver}-windowsservercore-1809",
-	"nats:${ver}-nanoserver-1809"
+	"nats:${ver}-windowsservercore-ltsc2025",
+	"nats:${ver}-nanoserver-ltsc2025"
 )
 
 foreach ($img in $images) {
@@ -16,6 +16,7 @@ foreach ($img in $images) {
 	sleep 1
 
 	Write-Output "checking ${img}"
+	docker logs "$runId"
 	docker ps --filter "id=${runId}" --filter "status=running" --quiet
 	if ($LASTEXITCODE -ne 0) {
 		exit 1

@@ -1,0 +1,9 @@
+FROM mcr.microsoft.com/windows/nanoserver:ltsc2025
+ENV NATS_DOCKERIZED 1
+
+COPY --from=nats:2.10.29-windowsservercore-ltsc2025 C:\\nats-server.exe C:\\nats-server.exe
+COPY nats-server.conf C:\\nats-server.conf
+
+EXPOSE 4222 8222 6222
+ENTRYPOINT ["C:\\nats-server.exe"]
+CMD ["--config", "nats-server.conf"]

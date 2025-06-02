@@ -16,11 +16,14 @@ default_sha256 = "00000000000000000000000000000000000000000000000000000000000000
 # Update the NATS_SERVER env variable across applicable files.
 def update_env_var(base_dir: str, new_ver: str):
     files = [
-        f"./{base_dir}/windowsservercore-1809/Dockerfile",
+        f"./{base_dir}/windowsservercore-ltsc2022/Dockerfile",
+        f"./{base_dir}/windowsservercore-ltsc2025/Dockerfile",
         f"./{base_dir}/tests/build-images.sh",
         f"./{base_dir}/tests/run-images.sh",
-        f"./{base_dir}/tests/build-images-2019.ps1",
-        f"./{base_dir}/tests/run-images-2019.ps1",
+        f"./{base_dir}/tests/build-images-ltsc2022.ps1",
+        f"./{base_dir}/tests/build-images-ltsc2025.ps1",
+        f"./{base_dir}/tests/run-images-ltsc2022.ps1",
+        f"./{base_dir}/tests/run-images-ltsc2025.ps1",
     ] +  glob.glob(f"./{base_dir}/alpine*/Dockerfile")
 
     r = re.compile(r"(NATS_SERVER )" + semver_str)
@@ -36,7 +39,8 @@ def update_env_var(base_dir: str, new_ver: str):
 # Update the nats:x.y.z tag across applicable files.
 def update_tag_var(base_dir: str, new_ver: str):
     files = [
-        f"./{base_dir}/nanoserver-1809/Dockerfile",
+        f"./{base_dir}/nanoserver-ltsc2022/Dockerfile",
+        f"./{base_dir}/nanoserver-ltsc2025/Dockerfile",
         f"./{base_dir}/scratch/Dockerfile",
     ]
 
@@ -53,7 +57,8 @@ def update_tag_var(base_dir: str, new_ver: str):
 # Update the nats:x.y.z tag across applicable files.
 def update_preview_tag_var(base_dir: str, new_ver: str):
     files = [
-        f"./{base_dir}/nanoserver-1809/Dockerfile.preview",
+        f"./{base_dir}/nanoserver-ltsc2022/Dockerfile.preview",
+        f"./{base_dir}/nanoserver-ltsc2025/Dockerfile.preview",
         f"./{base_dir}/scratch/Dockerfile.preview",
     ]
 
@@ -70,7 +75,8 @@ def update_preview_tag_var(base_dir: str, new_ver: str):
 # Update the NATS SHASUM across applicable files.
 def update_windows_shasums(base_dir: str, new_ver: str, shasums: typing.Dict):
     files = [
-        f"{base_dir}/windowsservercore-1809/Dockerfile",
+        f"{base_dir}/windowsservercore-ltsc2022/Dockerfile",
+        f"{base_dir}/windowsservercore-ltsc2025/Dockerfile",
     ]
 
     key = f"nats-server-v{new_ver}-windows-amd64.zip"
