@@ -3,7 +3,7 @@ Set-PSDebug -Trace 2
 # Exit on error.
 $ErrorActionPreference = "Stop"
 
-$ver = "NATS_SERVER 2.11.5-RC.2".Split(" ")[1]
+$ver = "NATS_SERVER 2.11.5-RC.3".Split(" ")[1]
 
 $images = @(
 	"nats:${ver}-windowsservercore-ltsc2025",
