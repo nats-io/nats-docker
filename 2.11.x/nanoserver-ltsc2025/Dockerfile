@@ -1,7 +1,7 @@
 FROM mcr.microsoft.com/windows/nanoserver:ltsc2025
 ENV NATS_DOCKERIZED 1
 
-COPY --from=nats:2.11.5-RC.3-windowsservercore-ltsc2025 C:\\nats-server.exe C:\\nats-server.exe
+COPY --from=nats:2.11.5-RC.4-windowsservercore-ltsc2025 C:\\nats-server.exe C:\\nats-server.exe
 COPY nats-server.conf C:\\nats-server.conf
 
 EXPOSE 4222 8222 6222
