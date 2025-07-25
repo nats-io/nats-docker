@@ -1,29 +1,30 @@
 FROM alpine:3.22
 
-ENV NATS_SERVER 2.11.6
+ENV NATS_SERVER 2.11.7-RC.1
 
 RUN set -eux; \
-	apkArch="$(apk --print-arch)"; \
-	case "$apkArch" in \
-		aarch64) natsArch='arm64'; sha256='4fe3c40bddc58e31012f55865df0dcd24012995d2893a4d64a0ae5cb147d7a36' ;; \
-		armhf) natsArch='arm6'; sha256='247ed4cd1682d5a77d93add9ebc806a9bfcac39981a9f0048678006895d3146d' ;; \
-		armv7) natsArch='arm7'; sha256='85044d4a4c13f910820c6727b8e748b97a6c73a6b4cb206cd77db9cab62be074' ;; \
-		x86_64) natsArch='amd64'; sha256='5e5272dd1bdb8da020aedc8cf883fb26c128441809a992f156e0b1ccb28ac5b7' ;; \
-		x86) natsArch='386'; sha256='0d601a8bd963f32597d3534a884e3a90f43400f730b666e407a0b59d16f09db9' ;; \
-		s390x) natsArch='s390x'; sha256='80f6cdc098aaffec4133204a0e83f9866ed379fcc274c07b129201e0e7e47e3f' ;; \
-		ppc64le) natsArch='ppc64le'; sha256='97ff93f6a3ef10d1bccb583d204848d93d30624dc328de8579f77e9c6c96f8f3' ;; \
-		*) echo >&2 "error: $apkArch is not supported!"; exit 1 ;; \
-	esac; \
-	\
-	wget -O nats-server.tar.gz "https://github.com/nats-io/nats-server/releases/download/v${NATS_SERVER}/nats-server-v${NATS_SERVER}-linux-${natsArch}.tar.gz"; \
-	echo "${sha256} *nats-server.tar.gz" | sha256sum -c -; \
-	\
-	apk add --no-cache ca-certificates tzdata; \
-	\
-	tar -xf nats-server.tar.gz; \
-	rm nats-server.tar.gz; \
-	mv "nats-server-v${NATS_SERVER}-linux-${natsArch}/nats-server" /usr/local/bin; \
-	rm -rf "nats-server-v${NATS_SERVER}-linux-${natsArch}";
+    apkArch="$(apk --print-arch)"; \
+    case "$apkArch" in \
+    aarch64) natsArch='arm64'; sha256='5901f524ebfed3efa80dd53656a79cfb633c041e3d6fc0ccba284044de018611' ;; \
+    armhf) natsArch='arm6'; sha256='cd22056d30a4313a57e97f2ed4b80a2868b04bd072c52bda321e575bcbde1532' ;; \
+    armv7) natsArch='arm7'; sha256='fba6244f5e193415de7e36336bc2280d775d019083223a681e4f1dd2910a8a40' ;; \
+    x86_64) natsArch='amd64'; sha256='07de080ad817a582f0ef74e280b229eeac44817ec629801098e35936a59320ae' ;; \
+    x86) natsArch='386'; sha256='a2e5c2fd512604b7d0300662bce5f2c766655894eb2bd8614833d34c5d01fc72' ;; \
+    s390x) natsArch='s390x'; sha256='7c8107228e3abb863ebc5fac169d3e36a70db8b423bab43611c89f6bc9dde747' ;; \
+    ppc64le) natsArch='ppc64le'; sha256='c9e2f54d98749e874ea0bbda9e11c6d4b0efa035117bd885368d3053b635ea9f' ;; \
+    loong64) natsArch='loong64'; sha256='507206c826ae31572ec34d378fe6d2e3fe064a541738b8acfafdbe2ddfdffaf1' ;; \
+    *) echo >&2 "error: $apkArch is not supported!"; exit 1 ;; \
+    esac; \
+    \
+    wget -O nats-server.tar.gz "https://github.com/nats-io/nats-server/releases/download/v${NATS_SERVER}/nats-server-v${NATS_SERVER}-linux-${natsArch}.tar.gz"; \
+    echo "${sha256} *nats-server.tar.gz" | sha256sum -c -; \
+    \
+    apk add --no-cache ca-certificates tzdata; \
+    \
+    tar -xf nats-server.tar.gz; \
+    rm nats-server.tar.gz; \
+    mv "nats-server-v${NATS_SERVER}-linux-${natsArch}/nats-server" /usr/local/bin; \
+    rm -rf "nats-server-v${NATS_SERVER}-linux-${natsArch}";
 
 COPY nats-server.conf /etc/nats/nats-server.conf
 COPY docker-entrypoint.sh /usr/local/bin
