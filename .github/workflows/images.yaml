@@ -10,7 +10,8 @@ permissions:
 
 env:
   IMAGE_NAME: "synadia/nats-server"
-  LINUX_ARCHS: "linux/arm64,linux/arm/v6,linux/arm/v7,linux/amd64,linux/386,linux/s390x,linux/ppc64le"
+  LINUX_ARCHS_2_10: "linux/arm64,linux/arm/v6,linux/arm/v7,linux/amd64,linux/386,linux/s390x,linux/ppc64le"
+  LINUX_ARCHS: "linux/arm64,linux/arm/v6,linux/arm/v7,linux/amd64,linux/386,linux/s390x,linux/ppc64le,linux/loong64"
 
 jobs:
   linux-2_10:
@@ -39,11 +40,11 @@ jobs:
           TAG=${{ github.ref_name }}
           echo "TAG=${TAG#v}" >> "$GITHUB_OUTPUT"
 
-      - name: Alpine 3.21
+      - name: Alpine
         uses: docker/build-push-action@v6
         with:
           context: ./2.10.x/alpine3.22/
-          platforms: ${{ env.LINUX_ARCHS }}
+          platforms: ${{ env.LINUX_ARCHS_2_10 }}
           push: true
           tags: ${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-alpine3.22
           provenance: mode=max
@@ -53,7 +54,7 @@ jobs:
         with:
           context: ./2.10.x/scratch/
           file: ./2.10.x/scratch/Dockerfile.preview
-          platforms: ${{ env.LINUX_ARCHS }}
+          platforms: ${{ env.LINUX_ARCHS_2_10 }}
           push: true
           tags: ${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-scratch
           provenance: mode=max
@@ -138,7 +139,7 @@ jobs:
           TAG=${{ github.ref_name }}
           echo "TAG=${TAG#v}" >> "$GITHUB_OUTPUT"
 
-      - name: Alpine 3.21
+      - name: Alpine
         uses: docker/build-push-action@v6
         with:
           context: ./2.11.x/alpine3.22/
