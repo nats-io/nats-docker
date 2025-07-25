@@ -98,7 +98,11 @@ def update_alpine_shasums(base_dir: str, new_ver: str, shasums: typing.Dict):
     with open(file, "r") as fd:
         data = fd.read()
 
-    for arch in ("arm64", "arm6", "arm7", "amd64", "386", "s390x", "ppc64le"):
+    arches = ("arm64", "arm6", "arm7", "amd64", "386", "s390x", "ppc64le")
+    if base_dir != "2.10.x":
+        arches += ("loong64",)
+
+    for arch in arches:
         key = f"nats-server-v{new_ver}-linux-{arch}.tar.gz"
         arch_sha = shasums.get(key, default_sha256)
         r = re.compile(f"(natsArch='{arch}'; )"+r"sha256='" + sha256_str + r"'")
