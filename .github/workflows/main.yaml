@@ -14,6 +14,7 @@ jobs:
         version:
           - 2.10.x
           - 2.11.x
+          - 2.12.x
     steps:
       - name: Checkout code
         uses: actions/checkout@v1
@@ -33,6 +34,7 @@ jobs:
         version:
           - 2.10.x
           - 2.11.x
+          - 2.12.x
         ltsc:
           - 2022
           # - 2025

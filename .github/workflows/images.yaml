@@ -212,3 +212,102 @@ jobs:
             ./${{ matrix.version }}/nanoserver-ltsc${{ matrix.ltsc }}
 
           docker push "${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-nanoserver-ltsc${{ matrix.ltsc }}"
+
+  linux-2_12:
+    name: Build Linux (2.12.x)
+    if: ${{ startsWith(github.ref_name,  'v2.12.') }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Log into Docker
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Tag Version
+        id: ref
+        shell: bash
+        run: |
+          TAG=${{ github.ref_name }}
+          echo "TAG=${TAG#v}" >> "$GITHUB_OUTPUT"
+
+      - name: Alpine
+        uses: docker/build-push-action@v6
+        with:
+          context: ./2.12.x/alpine3.22/
+          platforms: ${{ env.LINUX_ARCHS }}
+          push: true
+          tags: ${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-alpine3.22
+          provenance: mode=max
+
+      - name: Scratch
+        uses: docker/build-push-action@v6
+        with:
+          context: ./2.12.x/scratch/
+          file: ./2.12.x/scratch/Dockerfile.preview
+          platforms: ${{ env.LINUX_ARCHS }}
+          push: true
+          tags: ${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-scratch
+          provenance: mode=max
+          build-args: |
+            BASE_IMAGE=${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-alpine3.22
+
+  windows-2_12:
+    name: Test Windows Server LTSC ${{ matrix.ltsc }} (${{ matrix.version }})
+    if: ${{ startsWith(github.ref_name,  'v2.12.') }}
+    runs-on: windows-${{ matrix.ltsc }}
+    strategy:
+      fail-fast: false
+      matrix:
+        version:
+          - 2.12.x
+        ltsc:
+          - 2022
+          # - 2025
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Log into Docker
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+        # NOTE: bash is supported on Windows runners
+        # https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#setting-an-output-parameter
+      - name: Tag Version
+        id: ref
+        shell: bash
+        run: |
+          TAG=${{ github.ref_name }}
+          echo "TAG=${TAG#v}" >> "$GITHUB_OUTPUT"
+
+        # Buildx is not supported on Windows yet.
+      - name: windowsservercore-ltsc${{ matrix.ltsc }}
+        shell: pwsh
+        run: |
+          docker build `
+            --tag "${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-windowsservercore-ltsc${{ matrix.ltsc }}" `
+            ./${{ matrix.version }}/windowsservercore-ltsc${{ matrix.ltsc }}
+
+          docker push "${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-windowsservercore-ltsc${{ matrix.ltsc }}"
+
+      - name: nanoserver-ltsc${{ matrix.ltsc }}
+        shell: pwsh
+        run: |
+          docker build `
+            --file ./${{ matrix.version }}/nanoserver-ltsc${{ matrix.ltsc }}/Dockerfile.preview `
+            --build-arg "BASE_IMAGE=${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-windowsservercore-ltsc${{ matrix.ltsc }}" `
+            --tag "${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-nanoserver-ltsc${{ matrix.ltsc }}" `
+            ./${{ matrix.version }}/nanoserver-ltsc${{ matrix.ltsc }}
+
+          docker push "${{ env.IMAGE_NAME }}:${{ steps.ref.outputs.TAG }}-nanoserver-ltsc${{ matrix.ltsc }}"
