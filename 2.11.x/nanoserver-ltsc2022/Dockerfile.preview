@@ -1,4 +1,4 @@
-ARG BASE_IMAGE=nats:2.11.9-RC.3-windowsservercore-ltsc2022
+ARG BASE_IMAGE=nats:2.11.9-windowsservercore-ltsc2022
 FROM $BASE_IMAGE AS base
 
 FROM mcr.microsoft.com/windows/nanoserver:ltsc2022
