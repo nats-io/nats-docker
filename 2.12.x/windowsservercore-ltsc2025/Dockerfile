@@ -4,9 +4,9 @@ FROM mcr.microsoft.com/windows/servercore:ltsc2025
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop';"]
 
 ENV NATS_DOCKERIZED 1
-ENV NATS_SERVER 2.12.1-RC.3
+ENV NATS_SERVER 2.12.1-RC.4
 ENV NATS_SERVER_DOWNLOAD https://github.com/nats-io/nats-server/releases/download/v${NATS_SERVER}/nats-server-v${NATS_SERVER}-windows-amd64.zip
-ENV NATS_SERVER_SHASUM 7ec4d2abc4320eb9704e195ff85f8b344bdd7583a0685c619f94afb49345723c
+ENV NATS_SERVER_SHASUM 0faf35e3fbf0f5e08b4f9eefd33a4d1e70b3aab45cd382906cd6093859c6bf02
 
 RUN Set-PSDebug -Trace 2
 
