@@ -2,6 +2,15 @@ FROM alpine:3.22
 
 ENV NATS_SERVER 2.12.2
 
+LABEL org.opencontainers.image.title="NATS Server" \
+      org.opencontainers.image.description="NATS is an open-source, high-performance, cloud native messaging system." \
+      org.opencontainers.image.url="https://nats.io" \
+      org.opencontainers.image.documentation="https://docs.nats.io" \
+      org.opencontainers.image.source="https://github.com/nats-io/nats-docker" \
+      org.opencontainers.image.vendor="NATS.io" \
+      org.opencontainers.image.licenses="Apache-2.0" \
+      org.opencontainers.image.version="${NATS_SERVER}"
+
 RUN set -eux; \
     apkArch="$(apk --print-arch)"; \
     case "$apkArch" in \
