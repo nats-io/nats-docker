@@ -5,6 +5,16 @@ SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop';"]
 
 ENV NATS_DOCKERIZED 1
 ENV NATS_SERVER 2.11.11
+
+LABEL org.opencontainers.image.title="NATS Server" \
+      org.opencontainers.image.description="NATS is an open-source, high-performance, cloud native messaging system." \
+      org.opencontainers.image.url="https://nats.io" \
+      org.opencontainers.image.documentation="https://docs.nats.io" \
+      org.opencontainers.image.source="https://github.com/nats-io/nats-docker" \
+      org.opencontainers.image.vendor="NATS.io" \
+      org.opencontainers.image.licenses="Apache-2.0" \
+      org.opencontainers.image.version="${NATS_SERVER}"
+
 ENV NATS_SERVER_DOWNLOAD https://github.com/nats-io/nats-server/releases/download/v${NATS_SERVER}/nats-server-v${NATS_SERVER}-windows-amd64.zip
 ENV NATS_SERVER_SHASUM b54fd598f0d2e2e8c3783ac4503eea024803837f0a3c78dc4d4ceac94fb42ac4
 
