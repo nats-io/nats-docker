@@ -4,7 +4,7 @@ FROM mcr.microsoft.com/windows/servercore:ltsc2022
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop';"]
 
 ENV NATS_DOCKERIZED 1
-ENV NATS_SERVER 2.12.3-RC.4
+ENV NATS_SERVER 2.12.3-RC.5
 
 LABEL org.opencontainers.image.title="NATS Server" \
       org.opencontainers.image.description="NATS is an open-source, high-performance, cloud native messaging system." \
@@ -16,7 +16,7 @@ LABEL org.opencontainers.image.title="NATS Server" \
       org.opencontainers.image.version="${NATS_SERVER}"
 
 ENV NATS_SERVER_DOWNLOAD https://github.com/nats-io/nats-server/releases/download/v${NATS_SERVER}/nats-server-v${NATS_SERVER}-windows-amd64.zip
-ENV NATS_SERVER_SHASUM 5dd59f663487a6d7965335e96c1e8dd32359048bd32db222316fde88a6af6fe0
+ENV NATS_SERVER_SHASUM f665827a34276f39e6c44bdcca66e0c97fbe483fdafc2279c424c7cf4ac3445f
 
 RUN Set-PSDebug -Trace 2
 
