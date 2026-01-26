@@ -1,6 +1,6 @@
 FROM alpine:3.22
 
-ENV NATS_SERVER 2.12.4-RC.4
+ENV NATS_SERVER 2.12.4-RC.6
 
 LABEL org.opencontainers.image.title="NATS Server" \
       org.opencontainers.image.description="NATS is an open-source, high-performance, cloud native messaging system." \
@@ -14,14 +14,14 @@ LABEL org.opencontainers.image.title="NATS Server" \
 RUN set -eux; \
     apkArch="$(apk --print-arch)"; \
     case "$apkArch" in \
-    aarch64) natsArch='arm64'; sha256='137f875394dd9ce2b15ed57c119f44ca0eec0e939e0ac71540aa5ac9497b0fcd' ;; \
-    armhf) natsArch='arm6'; sha256='24d5a5f6cd6989168cbf85e51d27d54afbf5e2feb5ce3497a34c65ea34ccc594' ;; \
-    armv7) natsArch='arm7'; sha256='6cf6267f2e1e4d0b2dd80863e4e93d7095b13e29c101b45cdc22ce8aaed7d0cc' ;; \
-    x86_64) natsArch='amd64'; sha256='c5362221ded8d7ac50b70b317e7e3aea6df4387e2d33a67f2dbfde94feb88d88' ;; \
-    x86) natsArch='386'; sha256='987bb93ea15c8d334a223c610c72dde26e33583c0bd3e57ae3782e80ba188660' ;; \
-    s390x) natsArch='s390x'; sha256='567a72ebac3c22769c7b6bbc765c8e345506385d5dd29b93903678dfa163980d' ;; \
-    ppc64le) natsArch='ppc64le'; sha256='43dfe8368506aa1a394daa7802d308912eb1794995de5111451d0bab81ec2b2f' ;; \
-    loong64) natsArch='loong64'; sha256='b28e21238db90ea2d4a61987edebf3b63b7329d1ba278f7d6717c874710bba51' ;; \
+    aarch64) natsArch='arm64'; sha256='aa7da0a3b6a24c1a34f0349878ea9f77408584a2a3a8a014f1052776fdff565a' ;; \
+    armhf) natsArch='arm6'; sha256='6eed87c749391b6149c7bc60d38653316bdaee2957a9b7ffc4d5d374cacd1b03' ;; \
+    armv7) natsArch='arm7'; sha256='62e569f369b47f011fc0d20656f2a7027f84f7e026c49bad2e8e4d8ed06ba415' ;; \
+    x86_64) natsArch='amd64'; sha256='9b6f764642c93fc7cf2c909e654f97525d4b4fcec85b8b1893086271e8c426c4' ;; \
+    x86) natsArch='386'; sha256='c73f8365a801bd83620dc913273fcbe1117a102d527f8a492b6848d91006e8eb' ;; \
+    s390x) natsArch='s390x'; sha256='17a73144e23fdb3797ca524ff04f114089b68888357230ddf030122f88c61e84' ;; \
+    ppc64le) natsArch='ppc64le'; sha256='66ee1abbad3ffcfa98a702452e0aa98679a11ded9541980a0958f58efb0f4b2c' ;; \
+    loong64) natsArch='loong64'; sha256='eb21d0c92a5684ece3c0064279908c4b01488208e0b1c19120df5a8d28c8845b' ;; \
     *) echo >&2 "error: $apkArch is not supported!"; exit 1 ;; \
     esac; \
     \
