@@ -1,4 +1,4 @@
-ARG BASE_IMAGE=nats:2.12.4-windowsservercore-ltsc2025
+ARG BASE_IMAGE=nats:2.12.5-RC.1-windowsservercore-ltsc2025
 FROM $BASE_IMAGE AS base
 
 FROM mcr.microsoft.com/windows/nanoserver:ltsc2025
