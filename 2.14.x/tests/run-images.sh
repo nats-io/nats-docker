@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -ex
 
-ver=(NATS_SERVER 2.14.8)
+ver=(NATS_SERVER 2.14.9)
 
 images=(
 	"nats:${ver[1]}-alpine3.22"
